@@ -2,7 +2,7 @@ import React, { useCallback} from 'react';
 import {AddFormItem} from "./AddFormItem";
 import {EditableSpan} from "./EditableSpan";
 import {Delete, Favorite, FavoriteBorder} from "@mui/icons-material";
-import {Checkbox, IconButton} from "@mui/material";
+import { IconButton} from "@mui/material";
 import {Task} from "./Task";
 
 export type TaskType = {

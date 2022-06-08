@@ -56,15 +56,15 @@ export const taskReducer = (state: InitialTaskStateType = initialTaskState, acti
             }
         }
         case CHANGE_TASK_STATUS: {
-          state[action.todolistId]= state[action.todolistId].map(item=>item.id === action.id?
-              {...item,isDone:action.isDone}:item);
-          return {...state}
+            state[action.todolistId] = state[action.todolistId].map(item => item.id === action.id ?
+                {...item, isDone: action.isDone} : item);
+            return {...state}
         }
         case CHANGE_TASK_TEXT: {
-            state[action.todolistId]= state[action.todolistId].map(item=>item.id === action.id?
-                {...item,title:action.title}:item);
+            state[action.todolistId] = state[action.todolistId].map(item => item.id === action.id ?
+                {...item, title: action.title} : item);
             return {...state}
-            }
+        }
 
         case ADD_TODOLIST: {
             return {...state, [action.id]: []}

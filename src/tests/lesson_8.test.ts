@@ -43,15 +43,15 @@ test("sum of first N numbers", () => {
     expect(sumFirstNumbers(4)).toBe(10)
     expect(sumFirstNumbers(10)).toBe(55)
 })
-test("get banknote list", ()=> {
-    // надо бы проверять длинну резалтов и их сумму
-    const result2500 = getBanknoteList(2500)
-    const result23 = getBanknoteList(23)
-    expect(result2500[0]).toBe(1000)
-    expect(result2500[1]).toBe(1000)
-    expect(result2500[2]).toBe(500)
-    expect(result23[0]).toBe(20)
-    expect(result23[1]).toBe(2)
-    expect(result23[2]).toBe(1)
-
-})
+// test("get banknote list", ()=> {
+//     // надо бы проверять длинну резалтов и их сумму
+//     const result2500 = getBanknoteList(2500)
+//     const result23 = getBanknoteList(23)
+//     expect(result2500[0]).toBe(1000)
+//     expect(result2500[1]).toBe(1000)
+//     expect(result2500[2]).toBe(500)
+//     expect(result23[0]).toBe(20)
+//     expect(result23[1]).toBe(2)
+//     expect(result23[2]).toBe(1)
+//
+// })
