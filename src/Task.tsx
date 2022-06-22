@@ -1,33 +1,51 @@
-import React, {ChangeEvent, useCallback} from 'react';
-import {TaskType} from "./Todolist";
-import {Checkbox, IconButton} from "@mui/material";
-import {Delete, Favorite, FavoriteBorder} from "@mui/icons-material";
+import React, {useCallback} from 'react';
 import {EditableSpan} from "./EditableSpan";
+import {changeTaskStatusAC, changeTaskTextAC, removeTaskAC} from "./state/stateReducer";
+import {useDispatch} from "react-redux";
+import {tasksAPI, TaskType} from "./API/TasksApi";
+
 type TaskPropsType = {
-    removeTask: (taskId: string, todolistId: string) => void
-    changeTaskStatus: (taskId: string, isDone: boolean, todolistId: string) => void
-    onChangeText: (taskId: string, text: string, todolistId: string) => void
     todolistId: string
-    task: TaskType
+    // task: TaskType
+    taskId:string
+    status:number
+    taskTitle:string
 
 }
-export const Task = React.memo( (props: TaskPropsType) => {
-    const onClickHandler = () => props.removeTask(props.task.id, props.todolistId)
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        props.changeTaskStatus(props.task.id, e.currentTarget.checked, props.todolistId);
-    }
+export const Task = React.memo((props: TaskPropsType) => {
+    const dispatch = useDispatch();
+
+    const removeTask = useCallback(() => {
+        tasksAPI.deleteTasks(props.todolistId, props.taskId).then((res) => {
+            dispatch(removeTaskAC(props.taskId, props.todolistId))
+        })
+
+    }, [props.todolistId, props.taskId]);
+    let a:number ;
+    props.status===0? a = 1 : a = 0
+
+    const changeStatus = useCallback(() => {
+       tasksAPI.updateTask(props.taskId,props.taskTitle,a, props.todolistId).then((item) => {
+           console.log(item.data.data.item.status)
+           dispatch(changeTaskStatusAC(props.taskId, a, props.todolistId))
+        })
+    }, [props.taskId,props.status, props.todolistId]);
+
     const onChangeText = useCallback((text: string) => {
-        props.onChangeText(props.task.id, text, props.todolistId)
-    },[ props.onChangeText,props.task.id,props.todolistId])
+        tasksAPI.updateTask(props.taskId, text,props.status, props.todolistId).then((item) => {
+            dispatch(changeTaskTextAC(props.taskId, text, props.todolistId))
+        })
+    }, [props.taskId, props.todolistId]);
 
-    return <div key={props.task.id} className={props.task.isDone ? "is-done" : ""}>
+    return <div key={props.taskId} className={props.status === 1 ? "is-done" : ""}>
 
-        <Checkbox icon={<FavoriteBorder/>} checkedIcon={<Favorite/>}
-                  onChange={onChangeHandler}
-                  checked={props.task.isDone}/>
-        <EditableSpan title={props.task.title} onChange={onChangeText}/>
-        <IconButton aria-label='delete' size='small' onClick={onClickHandler}><Delete
-            fontSize='small'/></IconButton>
+        <input
+            type='checkbox'
+            onChange={changeStatus}
+            checked={!! props.status}
+        />
+        <EditableSpan title={props.taskTitle} onChange={(text) => onChangeText(text)}/>
+        <button onClick={removeTask}>delete</button>
     </div>
 });
 

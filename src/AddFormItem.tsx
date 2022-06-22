@@ -1,13 +1,12 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
-import {IconButton} from "@mui/material";
-import {Fingerprint} from "@mui/icons-material";
+
 
 type AddFormItemType = {
     addItem: (title: string) => void
 
 }
 export const AddFormItem =React.memo((props: AddFormItemType) => {
-    console.log('additemform')
+
     let [title, setTitle] = useState("")
     let [error, setError] = useState<string | null>(null)
 
@@ -37,7 +36,7 @@ export const AddFormItem =React.memo((props: AddFormItemType) => {
                    onKeyDown={onKeyPressHandler}
                    className={error ? "error" : ""}
             />
-            <IconButton color="secondary" onClick={addTask}><Fingerprint/></IconButton>
+            <button color="secondary" onClick={addTask}>add</button>
             {error && <div className="error-message">{error}</div>}
         </div>
     );

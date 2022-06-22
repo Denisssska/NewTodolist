@@ -1,13 +1,13 @@
 import React from 'react';
 import {ComponentMeta, ComponentStory} from "@storybook/react";
-import AppNew from "../AppNew";
+import App from "../App";
 
 import {ReduxStoreProviderDecorator} from "./ReduxStoreProviderDecorator";
 
 export default {
-    title: 'AppNew',
-    components: AppNew,
+    title: 'App',
+    components: App,
     decorators:[ReduxStoreProviderDecorator]
-} as ComponentMeta<typeof AppNew>
+} as ComponentMeta<typeof App>
 
-export const AppNewExample: ComponentStory<typeof AppNew> = () =><AppNew/>;
+export const AppNewExample: ComponentStory<typeof App> = () =><App/>;

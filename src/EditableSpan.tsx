@@ -5,7 +5,6 @@ type EditableSpanType = {
     onChange: (newText: string) => void
 }
 export const EditableSpan = React.memo((props: EditableSpanType) => {
-    console.log('edit')
     let [editMode, setEditMode] = useState(false)
     let [newText, setNewText] = useState('')
     const changeTextDoubleClick = () => {

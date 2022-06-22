@@ -8,12 +8,12 @@ import {v1} from "uuid";
 import {TaskType} from "../Todolist";
 
 const rootReducer = combineReducers({
-    todolists:todolistReducer,
+    todolist:todolistReducer,
     tasks:taskReducer
 })
 
 const initialGlobalState = {
-    todolists: [
+    todolist: [
         {id: todolistId1, title: 'What to learn', filter: 'all'}
     ] as TodolistsType[],
     tasks:{
@@ -26,8 +26,8 @@ const initialGlobalState = {
         ] as TaskType[]
     }
 }
-export const storyBookStore = legacy_createStore(rootReducer, initialGlobalState as unknown as StateAppType)
-export const ReduxStoreProviderDecorator = (storyFn:any) => {
-    return <Provider store={store}>{storyFn()}</Provider>
+export const storyBookStore = legacy_createStore(rootReducer, initialGlobalState as StateAppType)
+export const ReduxStoreProviderDecorator = (storyFn:()=>React.ReactNode) => {
+    return <Provider store={storyBookStore}>{storyFn()}</Provider>
 };
 
