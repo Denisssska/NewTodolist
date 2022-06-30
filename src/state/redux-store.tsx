@@ -1,5 +1,5 @@
 import {todolistReducer} from "./todolistReducer";
-import {taskReducer} from "./stateReducer";
+import {taskReducer} from "./TaskReducer";
 import {applyMiddleware, combineReducers, legacy_createStore} from "redux";
 import thunk from "redux-thunk";
 
@@ -9,6 +9,6 @@ let reducersBox = combineReducers({
     tasks: taskReducer,
 })
 let store = legacy_createStore(reducersBox,applyMiddleware(thunk))
-export type StoreType = typeof store;
+// export type StoreType = typeof store;
 
 export default store

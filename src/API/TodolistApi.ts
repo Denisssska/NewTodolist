@@ -1,6 +1,20 @@
 import axios from "axios";
 
-
+import {FilterValuesType} from "../state/todolistReducer";
+export type TodolistsType = {
+    id: string
+    title: string
+    filter: FilterValuesType
+    addedDate: string
+    order: number
+}
+type ResponsType ={
+    resultCode: number
+    messages:string[],
+    data: {
+        item?:TodolistsType
+    }
+}
 export const instance = axios.create({
     withCredentials: true,
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
@@ -11,18 +25,18 @@ export const instance = axios.create({
 
 export const todolistAPI = {
     createTodolist(title: string) {
-        return instance.post(`todo-lists`, {title: title})
-            .then((res) => res.data.data.item)
+        return instance.post<ResponsType>(`todo-lists`, {title: title})
+             .then((res) => res.data.data.item)
     },
     getTodolists() {
-        return instance.get(`todo-lists`)
-            .then((res) => res.data)
+        return instance.get<Array<TodolistsType>>(`todo-lists`)
+
     },
     deleteTodolist(todolistId: string) {
-        return instance.delete(`todo-lists/${todolistId}`)
-            .then((res) => res.data)
+        return instance.delete<ResponsType>(`todo-lists/${todolistId}`)
+            // .then((res) => res.data)
     },
     updateTodolist(todolistId: string, title: string) {
-        return instance.put(`todo-lists/${todolistId}`, {title: title})
+        return instance.put<ResponsType>(`todo-lists/${todolistId}`, {title: title})
     }
 }

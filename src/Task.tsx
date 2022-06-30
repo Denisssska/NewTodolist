@@ -1,9 +1,9 @@
 import React, {useCallback} from 'react';
-import {EditableSpan} from "./EditableSpan";
+import {EditableSpan} from "./components/EditableSpan/EditableSpan";
 import {
 
     removeTaskTC, updateTaskTC
-} from "./state/stateReducer";
+} from "./state/TaskReducer";
 import {useDispatch} from "react-redux";
 
 import {Dispatch} from "redux";

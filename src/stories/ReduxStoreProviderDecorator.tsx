@@ -2,7 +2,7 @@ import React from 'react';
 import {Provider} from "react-redux";
 import {combineReducers, legacy_createStore} from "redux";
 import { todolistReducer, TodolistsType} from "../state/todolistReducer";
-import {taskReducer} from "../state/stateReducer";
+import {taskReducer} from "../state/TaskReducer";
 import {v1} from "uuid";
 import {TaskType} from "../API/TasksApi";
 
