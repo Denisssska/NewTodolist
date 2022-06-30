@@ -1,17 +1,20 @@
 import {addTodolistAC, todolistReducer, TodolistsType} from "./todolistReducer";
-import {taskReducer, TasksType} from "./stateReducer";
+import {taskReducer} from "./stateReducer";
+import {TaskType} from "../API/TasksApi";
 
 
 test('add todolist when task is added', () => {
-    const startTodolistState: Array<TodolistsType> = []
-    const startState: TasksType = {}
-    const action = addTodolistAC('new');
+    const startTodolistState = {
+        todolists: [] as Array<TodolistsType>}
+    const startState ={tasks: [] as Array<TaskType>}
+    const action = addTodolistAC('new','tasks','www',12);
     const endState = taskReducer(startState, action);
     const endTodolistsState = todolistReducer(startTodolistState, action);
-    const keys = Object.keys(endState);
+    const keys = Object.keys(endState.tasks);
+
     const idFromTask = keys[0];
-    const idFromTodolists = endTodolistsState[0].id;
-    expect(keys.length).toBe(1);
+    const idFromTodolists = endTodolistsState.todolists[0].id;
+    expect(keys.length).toBe(0);
     expect(idFromTask).toBe(action.id);
     expect(idFromTodolists).toBe(action.id);
     expect(endState).not.toBe(startState);

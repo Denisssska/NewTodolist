@@ -1,32 +1,35 @@
 import React from 'react';
 import {Provider} from "react-redux";
-import store, {StateAppType} from "../state/redux-store";
 import {combineReducers, legacy_createStore} from "redux";
-import {todolistId1, todolistReducer, TodolistsType} from "../state/todolistReducer";
+import { todolistReducer, TodolistsType} from "../state/todolistReducer";
 import {taskReducer} from "../state/stateReducer";
 import {v1} from "uuid";
-import {TaskType} from "../Todolist";
+import {TaskType} from "../API/TasksApi";
 
+export const todolistId1 = v1()
 const rootReducer = combineReducers({
-    todolist:todolistReducer,
+    todolists:todolistReducer,
     tasks:taskReducer
 })
 
 const initialGlobalState = {
-    todolist: [
-        {id: todolistId1, title: 'What to learn', filter: 'all'}
+    todolists: [
+        {id: todolistId1, title: 'What to learn', filter: 'all',addedDate:'12 02',order:12}
     ] as TodolistsType[],
-    tasks:{
-        [todolistId1]: [
-            {id: v1(), title: "HTML&CSS", isDone: true},
-            {id: v1(), title: "JS", isDone: true},
-            {id: v1(), title: "ReactJS", isDone: false},
-            {id: v1(), title: "Rest API", isDone: false},
-            {id: v1(), title: "GraphQL", isDone: false},
-        ] as TaskType[]
-    }
+    tasks: [
+        {
+            id: 'one', title: 'task1', description: 'a',
+            status: 1, priority: 2, startDate: '12',
+            deadline: '14', todoListId: todolistId1, order: 5, addedDate: '55'
+        },
+        {
+            id: 'two', title: 'task2', description: 'a',
+            status: 2, priority: 2, startDate: '12',
+            deadline: '14', todoListId:todolistId1, order: 5, addedDate: '55'
+        }
+    ] as Array<TaskType>
 }
-export const storyBookStore = legacy_createStore(rootReducer, initialGlobalState as StateAppType)
+export const storyBookStore = legacy_createStore(rootReducer, initialGlobalState as any)
 export const ReduxStoreProviderDecorator = (storyFn:()=>React.ReactNode) => {
     return <Provider store={storyBookStore}>{storyFn()}</Provider>
 };

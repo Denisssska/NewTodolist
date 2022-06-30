@@ -3,11 +3,17 @@ import {AddFormItem} from "./AddFormItem";
 import {EditableSpan} from "./EditableSpan";
 import {Task} from "./Task";
 import {useDispatch, useSelector} from "react-redux";
-import {addTaskAC, getTaskAC} from "./state/stateReducer";
-import {todolistAPI} from "./API/TodolistApi";
-import {changeTodolistFilterAC, changeTodolistTitleAC, removeTodolistAC} from "./state/todolistReducer";
-import {tasksAPI, TaskType} from "./API/TasksApi";
+import {addTaskTC,getTaskTC} from "./state/stateReducer";
+
+import {
+    changeTodolistFilterAC,
+    changeTodolistTitleTC,
+
+    removeTodolistTC
+} from "./state/todolistReducer";
+import {TaskType} from "./API/TasksApi";
 import {StateAppType} from "./state/redux-store";
+import {Dispatch} from "redux";
 
 
 
@@ -23,33 +29,29 @@ export const Todolist = React.memo((props: PropsType) => {
        return state.tasks.tasks.filter(item=>item.todoListId === props.todolistId)
 
     }) as Array<TaskType>
-    const dispatch = useDispatch();
+    const dispatch:Dispatch<any> = useDispatch();
     useEffect(()=>{
-        tasksAPI.getTasks(props.todolistId).then((items)=>{
-             dispatch(getTaskAC(items.data.items))
-        })
+        dispatch((getTaskTC(props.todolistId)))
         return console.log('dead useEffect')
     },[props.todolistId])
+
     const changeFilter = useCallback((value: FilterValuesType) => {
         dispatch(changeTodolistFilterAC(value, props.todolistId))
     }, [ props.todolistId]);
 
     const addTask = useCallback((title: string) => {
-        tasksAPI.createTasks(title,props.todolistId).then((items)=>{
+        dispatch(addTaskTC(title,props.todolistId))
 
-             dispatch(addTaskAC(items.data.data.item,props.todolistId))
-        })
     }, [props.todolistId]);
 
     const removeTodolist = useCallback(() => {
-        todolistAPI.deleteTodolist(props.todolistId).then((data)=>{
-            dispatch(removeTodolistAC(props.todolistId))
-        })
+        dispatch(removeTodolistTC(props.todolistId));
+
     }, [props.todolistId]);
+
     const changeTodolistTitle = useCallback((newText:string) => {
-        todolistAPI.updateTodolist(props.todolistId,newText).then((res)=>{
-            dispatch(changeTodolistTitleAC(props.todolistId, newText))
-        })
+         dispatch(changeTodolistTitleTC(props.todolistId,newText))
+
 
     }, [props.todolistId]);
     let tasksForTodolist = TaskState;
@@ -70,10 +72,7 @@ export const Todolist = React.memo((props: PropsType) => {
             {tasksForTodolist.map(item =>{
 
                 return <Task
-                    // task={item}
-                    taskId={item.id}
-                    taskTitle={item.title}
-                    status={item.status}
+                     task={item}
                     todolistId={props.todolistId}
                     key={item.id}
                 />

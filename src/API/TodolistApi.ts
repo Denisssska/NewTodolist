@@ -22,7 +22,7 @@ export const todolistAPI = {
         return instance.delete(`todo-lists/${todolistId}`)
             .then((res) => res.data)
     },
-    updateTodolist(todolistId:string,title:string){
-        return instance.put(`todo-lists/${todolistId}`,{title:title})
+    updateTodolist(todolistId: string, title: string) {
+        return instance.put(`todo-lists/${todolistId}`, {title: title})
     }
 }

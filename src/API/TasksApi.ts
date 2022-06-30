@@ -1,34 +1,42 @@
 import axios from "axios";
 
- type CreateTaskType={
-    resultCode:number
-    messages:Array<string>
-     fieldsErrors:Array<string>
-    data:{
-        item:TaskType
+type CreateTaskType = {
+    resultCode: number
+    messages: Array<string>
+    fieldsErrors: Array<string>
+    data: {
+        item: TaskType
     }
 }
- type DeleteTaskType={
-    resultCode:number
-    message:Array<string>
-     fieldsErrors:Array<string>
-    data:{}
+type DeleteTaskType = {
+    resultCode: number
+    message: Array<string>
+    fieldsErrors: Array<string>
+    data: {}
 }
-type UpdateTaskType=CreateTaskType
-type GetTaskType={
-     error:string|null
-    totalCount:number
-         items:Array<TaskType>
+type UpdateTaskType = CreateTaskType
+type GetTaskType = {
+    error: string | null
+    totalCount: number
+    items: Array<TaskType>
+}
+export type PayLoadType = {
+    title?: string
+    status?: number
+    description?: string
+    priority?: number
+    startDate?: string
+    deadline?: string
 }
 export type TaskType = {
     id: string
     title: string
-    description:string
-    status:number
+    description: string
+    status: number
     priority: number
     startDate: string
     deadline: string
-    todoListId:string
+    todoListId: string
     order: number
     addedDate: string
 }
@@ -41,19 +49,20 @@ export const instance = axios.create({
 });
 
 export const tasksAPI = {
-    createTasks(title: string,todolistId:string) {
+    createTasks(title: string, todolistId: string) {
         return instance.post<CreateTaskType>(`todo-lists/${todolistId}/tasks`, {title: title})
     },
-    getTasks(todolistId:string) {
+    getTasks(todolistId: string) {
         return instance.get<GetTaskType>(`todo-lists/${todolistId}/tasks`)
 
     },
-    deleteTasks(todolistId: string,taskId:string) {
+    deleteTasks(todolistId: string, taskId: string) {
         return instance.delete<DeleteTaskType>(`todo-lists/${todolistId}/tasks/${taskId}`)
 
     },
-    updateTask(taskId:string,title:string,status:number,todolistId:string){
-        return instance.put<UpdateTaskType>(`todo-lists/${todolistId}/tasks/${taskId}`,{title:title,status:status})
+    updateTask(taskId: string, payLoad: PayLoadType, todolistId: string) {
+        return instance.put<UpdateTaskType>(`todo-lists/${todolistId}/tasks/${taskId}`,
+            {...payLoad})
 
     },
 

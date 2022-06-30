@@ -18,14 +18,7 @@ const changeTodolistTextCallback = action('todolist want to change text')
 const removeTaskCallback = action('Task want to remove')
 const removeTodolistCallback = action('Todolist want to remove')
 
-const filter= 'active'
 export const TodolistExample: ComponentStory<typeof Todolist> = () => <div>
-    <Todolist  addTask={addTaskCallback} 
-               changeFilter={changeFilterCallback}
-               changeTaskStatus={changeTaskStatusCallback} 
-               changeTodolistTitle={changeTodolistTitleCallback} 
-               filter={filter} onChangeText={changeTodolistTextCallback}
-               removeTask={removeTaskCallback} removeTodolist={removeTodolistCallback}
-               tasks={[{id: '1', title: "HTML&CSS", isDone: true}]} title={'todolist'} todolistId={'todolistId1'}/>
+    <Todolist filter={'active'} title={'todolist'} todolistId={'todolistId1'}/>
     </div>
 ;
