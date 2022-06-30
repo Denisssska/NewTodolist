@@ -1,13 +1,13 @@
 import React, {useCallback} from 'react';
-import {EditableSpan} from "./components/EditableSpan/EditableSpan";
+import {EditableSpan} from "../../../../components/EditableSpan/EditableSpan";
 import {
 
     removeTaskTC, updateTaskTC
-} from "./state/TaskReducer";
+} from "./TaskReducer";
 import {useDispatch} from "react-redux";
 
 import {Dispatch} from "redux";
-import {TaskType} from "./API/TasksApi";
+import {TaskType} from "../../../../API/TasksApi";
 
 type TaskPropsType = {
     todolistId: string

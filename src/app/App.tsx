@@ -1,12 +1,12 @@
 import React, {useCallback, useEffect} from 'react';
 import './App.css';
-import {Todolist} from '../Todolist';
+import {Todolist} from '../features/todolistList/todolist/Todolist';
 import {AddFormItem} from "../components/AddItemForm/AddFormItem";
 import {useDispatch, useSelector} from "react-redux";
 import {
      addTodolistsTC,
     getTodolistsTC,
-} from "../state/todolistReducer";
+} from "../features/todolistList/todolist/todolistReducer";
 import {StateAppType} from "../state/redux-store";
 import {Dispatch} from "redux";
 import {TodolistsType} from "../API/TodolistApi";

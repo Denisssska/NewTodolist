@@ -1,15 +1,15 @@
 import React, {useCallback, useEffect} from 'react';
-import {AddFormItem} from "./components/AddItemForm/AddFormItem";
-import {EditableSpan} from "./components/EditableSpan/EditableSpan";
-import {Task} from "./Task";
+import {AddFormItem} from "../../../components/AddItemForm/AddFormItem";
+import {EditableSpan} from "../../../components/EditableSpan/EditableSpan";
+import {Task} from "./task/Task";
 import {useDispatch, useSelector} from "react-redux";
-import {addTaskTC,getTaskTC} from "./state/TaskReducer";
+import {addTaskTC,getTaskTC} from "./task/TaskReducer";
 
 import {
     changeTodolistFilterAC, changeTodolistTitleTC, removeTodolistTC
-} from "./state/todolistReducer";
-import {TaskType} from "./API/TasksApi";
-import {StateAppType} from "./state/redux-store";
+} from "./todolistReducer";
+import {TaskType} from "../../../API/TasksApi";
+import {StateAppType} from "../../../state/redux-store";
 import {Dispatch} from "redux";
 
 type FilterValuesType = "all" | "active" | "completed";

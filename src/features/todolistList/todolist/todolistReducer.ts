@@ -1,4 +1,4 @@
-import {todolistAPI, TodolistsType} from "../API/TodolistApi";
+import {todolistAPI, TodolistsType} from "../../../API/TodolistApi";
 import { Dispatch} from 'redux'
 
 const REMOVE_TODOLIST = "remove todolist";

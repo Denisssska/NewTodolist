@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import {FilterValuesType} from "../state/todolistReducer";
+import {FilterValuesType} from "../features/todolistList/todolist/todolistReducer";
 export type TodolistsType = {
     id: string
     title: string

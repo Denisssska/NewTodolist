@@ -1,6 +1,6 @@
-import {addTodolistAC, removeTodolistAC} from "./todolistReducer";
-import {PayLoadType, tasksAPI, TaskType} from "../API/TasksApi";
-import {StateAppType} from "./redux-store";
+import {addTodolistAC, removeTodolistAC} from "../todolistReducer";
+import {PayLoadType, tasksAPI, TaskType} from "../../../../API/TasksApi";
+import {StateAppType} from "../../../../state/redux-store";
 import { Dispatch} from "redux";
 
 

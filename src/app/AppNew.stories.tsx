@@ -2,7 +2,7 @@ import React from 'react';
 import {ComponentMeta, ComponentStory} from "@storybook/react";
 
 
-import {ReduxStoreProviderDecorator} from "../stories/ReduxStoreProviderDecorator";
+import {ReduxStoreProviderDecorator} from "../state/ReduxStoreProviderDecorator";
 import {App} from "./App";
 
 export default {

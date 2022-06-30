@@ -1,12 +1,12 @@
 import React from 'react';
 import {ComponentMeta, ComponentStory} from "@storybook/react";
 import {action} from "@storybook/addon-actions";
-import {Task} from "../Task";
+import {Task} from "./Task";
 import {useSelector} from "react-redux";
-import {StateAppType} from "../state/redux-store";
+import {StateAppType} from "../../../../state/redux-store";
 
-import {ReduxStoreProviderDecorator, todolistId1} from "./ReduxStoreProviderDecorator";
-import {TaskType} from "../API/TasksApi";
+import {ReduxStoreProviderDecorator, todolistId1} from "../../../../state/ReduxStoreProviderDecorator";
+import {TaskType} from "../../../../API/TasksApi";
 
 export default {
     title: 'Task',
