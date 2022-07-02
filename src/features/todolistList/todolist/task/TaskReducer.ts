@@ -1,7 +1,7 @@
 import {addTodolistAC, removeTodolistAC} from "../todolistReducer";
 import {PayLoadType, tasksAPI, TaskType} from "../../../../API/TasksApi";
-import {AppActionsType, StateAppType} from "../../../../state/redux-store";
-import { Dispatch} from "redux";
+import {AppActionsType, AppThunk, StateAppType} from "../../../../state/redux-store";
+import {Dispatch} from "redux";
 
 
 const REMOVE_TASK = 'remove task';
@@ -42,47 +42,49 @@ export const taskReducer = (state: InitialTaskStateType = initialTaskState, acti
             return {...state, tasks: [action.item, ...state.tasks]}
         }
         case UPDATE_TASK: {
-            return {...state, tasks: state.tasks.map(item => item.id === action.taskId ?
-                    {...item, ...action.payLoad} : item)}
+            return {
+                ...state, tasks: state.tasks.map(item => item.id === action.taskId ?
+                    {...item, ...action.payLoad} : item)
+            }
         }
         default:
             return state
     }
 }
 
-export const getTaskTC = (todolistId: string)=> (dispatch:Dispatch<TasksActionsType>) => {
+export const getTaskTC = (todolistId: string): AppThunk => (dispatch) => {
     tasksAPI.getTasks(todolistId).then((data) => dispatch(getTaskAC(data.data.items)))
 }
-export const addTaskTC = (title: string, todolistId: string) => (dispatch:Dispatch<AppActionsType>) => {
+export const addTaskTC = (title: string, todolistId: string) => (dispatch: Dispatch<AppActionsType>) => {
     tasksAPI.createTasks(title, todolistId).then((items) => {
         dispatch(addTaskAC(items.data.data.item, todolistId))
     })
 }
-export const removeTaskTC = (todolistId: string, taskId: string)=> (dispatch:Dispatch<AppActionsType>) => {
+export const removeTaskTC = (todolistId: string, taskId: string): AppThunk => (dispatch) => {
     tasksAPI.deleteTasks(todolistId, taskId).then((res) => {
-        if(res.data.resultCode=== 0){
+        if (res.data.resultCode === 0) {
             dispatch(removeTaskAC(taskId, todolistId))
         }
     })
 }
 
-export const updateTaskTC = (taskId: string, item: PayLoadType, todolistId: string)=>
-    (dispatch:Dispatch<AppActionsType>, getState: () => StateAppType) => {
-    const state = getState()
-    const newTask = state.tasks.tasks.find(item => item.id === taskId)
-    if (!newTask) return
-    let payLoad = {
-        title: newTask.title,
-        status: newTask.status,
-        description: newTask.description,
-        priority: newTask.priority,
-        startDate: newTask.startDate,
-        deadline: newTask.deadline, ...item
-    } as PayLoadType
-    tasksAPI.updateTask(taskId, payLoad, todolistId).then((res) => {
-        if(res.data.resultCode === 0){
-            dispatch(updateTaskAC(taskId, payLoad, todolistId))
-        }
+export const updateTaskTC = (taskId: string, item: PayLoadType, todolistId: string): AppThunk =>
+    (dispatch, getState: () => StateAppType) => {
+        const state = getState()
+        const newTask = state.tasks.tasks.find(item => item.id === taskId)
+        if (!newTask) return
+        let payLoad = {
+            title: newTask.title,
+            status: newTask.status,
+            description: newTask.description,
+            priority: newTask.priority,
+            startDate: newTask.startDate,
+            deadline: newTask.deadline, ...item
+        } as PayLoadType
+        tasksAPI.updateTask(taskId, payLoad, todolistId).then((res) => {
+            if (res.data.resultCode === 0) {
+                dispatch(updateTaskAC(taskId, payLoad, todolistId))
+            }
 
-    })
-}
+        })
+    }

@@ -1,5 +1,5 @@
 import {todolistAPI, TodolistsType} from "../../../API/TodolistApi";
-import {ThunkType} from "../../../state/redux-store";
+import {AppThunk, ThunkType} from "../../../state/redux-store";
 
 
 const REMOVE_TODOLIST = "remove todolist";
@@ -84,7 +84,7 @@ export const todolistReducer = (state: InitialTodolistStateType = initialState, 
             return state}}
 
 
-export const getTodolistsTC= ():ThunkType=>(dispatch)=>{
+export const getTodolistsTC= ():AppThunk=>(dispatch)=>{
     todolistAPI.getTodolists()
         .then((res) => {
         console.log(res.data)
@@ -94,14 +94,14 @@ export const getTodolistsTC= ():ThunkType=>(dispatch)=>{
 alert(err.message)
         })
 }
-export const addTodolistsTC= (title:string):ThunkType=>(dispatch)=>{
+export const addTodolistsTC= (title:string):AppThunk=>(dispatch)=>{
     todolistAPI.createTodolist(title)
         .then((item) => {
         //console.log(item)
       item && dispatch(addTodolistAC(item.title, item.id, item.addedDate, item.order))
     })
 }
-export const removeTodolistTC=(todolistId:string):ThunkType=>(dispatch)=>{
+export const removeTodolistTC=(todolistId:string):AppThunk=>(dispatch)=>{
     todolistAPI.deleteTodolist(todolistId)
         .then((data)=>{
            // console.log(data)
@@ -119,7 +119,7 @@ export const removeTodolistTC=(todolistId:string):ThunkType=>(dispatch)=>{
 //     })
 // }
 ////синтаксис
-export const changeTodolistTitleTC =(todolistId:string,newText:string):ThunkType=>async dispatch=>{
+export const changeTodolistTitleTC =(todolistId:string,newText:string):AppThunk=>async dispatch=>{
     try{
         const res = await todolistAPI.updateTodolist(todolistId, newText)
         //console.log(res)
