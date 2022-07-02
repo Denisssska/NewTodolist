@@ -1,5 +1,6 @@
 import {todolistAPI, TodolistsType} from "../../../API/TodolistApi";
-import { Dispatch} from 'redux'
+import {ThunkType} from "../../../state/redux-store";
+
 
 const REMOVE_TODOLIST = "remove todolist";
 const ADD_TODOLIST = "add todolist";
@@ -14,7 +15,7 @@ const initialState = {
 export type InitialTodolistStateType = typeof initialState
 export type FilterValuesType = "all" | "active" | "completed";
 
-type ActionsType = ReturnType<typeof removeTodolistAC>
+export type TodolistsActionType = ReturnType<typeof removeTodolistAC>
     | ReturnType<typeof addTodolistAC>
     | ReturnType<typeof changeTodolistTitleAC>
     | ReturnType<typeof changeTodolistFilterAC>
@@ -40,7 +41,7 @@ export const changeTodolistFilterAC = (value: FilterValuesType, todolistId: stri
     todolistId
 }) as const
 
-export const todolistReducer = (state: InitialTodolistStateType = initialState, action: ActionsType): InitialTodolistStateType => {
+export const todolistReducer = (state: InitialTodolistStateType = initialState, action: TodolistsActionType): InitialTodolistStateType => {
 
     switch (action.type) {
         case GET_ARRAY: {
@@ -83,7 +84,7 @@ export const todolistReducer = (state: InitialTodolistStateType = initialState, 
             return state}}
 
 
-export const getTodolistsTC= ()=>(dispatch:Dispatch<ActionsType>)=>{
+export const getTodolistsTC= ():ThunkType=>(dispatch)=>{
     todolistAPI.getTodolists()
         .then((res) => {
         console.log(res.data)
@@ -93,14 +94,14 @@ export const getTodolistsTC= ()=>(dispatch:Dispatch<ActionsType>)=>{
 alert(err.message)
         })
 }
-export const addTodolistsTC= (title:string)=>(dispatch:Dispatch<ActionsType>)=>{
+export const addTodolistsTC= (title:string):ThunkType=>(dispatch)=>{
     todolistAPI.createTodolist(title)
         .then((item) => {
         //console.log(item)
       item && dispatch(addTodolistAC(item.title, item.id, item.addedDate, item.order))
     })
 }
-export const removeTodolistTC=(todolistId:string)=>(dispatch:Dispatch<ActionsType>)=>{
+export const removeTodolistTC=(todolistId:string):ThunkType=>(dispatch)=>{
     todolistAPI.deleteTodolist(todolistId)
         .then((data)=>{
            // console.log(data)
@@ -109,12 +110,26 @@ export const removeTodolistTC=(todolistId:string)=>(dispatch:Dispatch<ActionsTyp
             }
     })
 }
-export const changeTodolistTitleTC =(todolistId:string,newText:string)=>(dispatch:Dispatch<ActionsType>)=>{
-    todolistAPI.updateTodolist(todolistId,newText).then((res)=>{
+// export const changeTodolistTitleTC =(todolistId:string,newText:string):ThunkType=>(dispatch)=>{
+//     todolistAPI.updateTodolist(todolistId,newText).then((res)=>{
+//         //console.log(res)
+//         if(res.data.resultCode ===0){
+//             dispatch(changeTodolistTitleAC(todolistId, newText))
+//         }
+//     })
+// }
+////синтаксис
+export const changeTodolistTitleTC =(todolistId:string,newText:string):ThunkType=>async dispatch=>{
+    try{
+        const res = await todolistAPI.updateTodolist(todolistId, newText)
         //console.log(res)
         if(res.data.resultCode ===0){
             dispatch(changeTodolistTitleAC(todolistId, newText))
         }
-    })
-}
+    } catch (e){
+// @ts-ignore
+        throw new Error(e)
+    }
+    }
+
 

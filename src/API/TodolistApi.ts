@@ -1,5 +1,4 @@
 import axios from "axios";
-
 import {FilterValuesType} from "../features/todolistList/todolist/todolistReducer";
 export type TodolistsType = {
     id: string
@@ -8,11 +7,11 @@ export type TodolistsType = {
     addedDate: string
     order: number
 }
-type ResponsType ={
+type ResponsType = {
     resultCode: number
-    messages:string[],
+    messages: string[],
     data: {
-        item?:TodolistsType
+        item?: TodolistsType
     }
 }
 export const instance = axios.create({
@@ -26,7 +25,7 @@ export const instance = axios.create({
 export const todolistAPI = {
     createTodolist(title: string) {
         return instance.post<ResponsType>(`todo-lists`, {title: title})
-             .then((res) => res.data.data.item)
+            .then((res) => res.data.data.item)
     },
     getTodolists() {
         return instance.get<Array<TodolistsType>>(`todo-lists`)
@@ -34,7 +33,7 @@ export const todolistAPI = {
     },
     deleteTodolist(todolistId: string) {
         return instance.delete<ResponsType>(`todo-lists/${todolistId}`)
-            // .then((res) => res.data)
+        // .then((res) => res.data)
     },
     updateTodolist(todolistId: string, title: string) {
         return instance.put<ResponsType>(`todo-lists/${todolistId}`, {title: title})

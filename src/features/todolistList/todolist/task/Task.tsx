@@ -1,21 +1,17 @@
 import React, {useCallback} from 'react';
 import {EditableSpan} from "../../../../components/EditableSpan/EditableSpan";
 import {
-
     removeTaskTC, updateTaskTC
 } from "./TaskReducer";
-import {useDispatch} from "react-redux";
-
-import {Dispatch} from "redux";
 import {TaskType} from "../../../../API/TasksApi";
-
+import {useAppDispatch} from "../../../../hooks/hooks";
 type TaskPropsType = {
     todolistId: string
     task: TaskType
 
 }
 export const Task = React.memo((props: TaskPropsType) => {
-    const dispatch: Dispatch<any> = useDispatch();
+    const dispatch = useAppDispatch();
 
     const removeTask = useCallback(() => {
         dispatch(removeTaskTC(props.todolistId, props.task.id))

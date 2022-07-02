@@ -1,6 +1,6 @@
 import {addTodolistAC, removeTodolistAC} from "../todolistReducer";
 import {PayLoadType, tasksAPI, TaskType} from "../../../../API/TasksApi";
-import {StateAppType} from "../../../../state/redux-store";
+import {AppActionsType, StateAppType} from "../../../../state/redux-store";
 import { Dispatch} from "redux";
 
 
@@ -12,7 +12,7 @@ export type InitialTaskStateType = typeof initialTaskState
 
 let initialTaskState = {tasks: [] as Array<TaskType>}
 
-type TasksActionsType = ReturnType<typeof removeTaskAC>
+export type TasksActionsType = ReturnType<typeof removeTaskAC>
     | ReturnType<typeof addTaskAC>
     | ReturnType<typeof updateTaskAC>
     | ReturnType<typeof addTodolistAC>
@@ -30,7 +30,7 @@ export const updateTaskAC = (taskId: string, payLoad: PayLoadType, todolistId: s
     todolistId
 }) as const
 
-export const taskReducer = (state: InitialTaskStateType = initialTaskState, action: TasksActionsType): InitialTaskStateType => {
+export const taskReducer = (state: InitialTaskStateType = initialTaskState, action: AppActionsType): InitialTaskStateType => {
     switch (action.type) {
         case GET_TASK: {
             return {...state, tasks: [...state.tasks, ...action.data]}
@@ -53,12 +53,12 @@ export const taskReducer = (state: InitialTaskStateType = initialTaskState, acti
 export const getTaskTC = (todolistId: string)=> (dispatch:Dispatch<TasksActionsType>) => {
     tasksAPI.getTasks(todolistId).then((data) => dispatch(getTaskAC(data.data.items)))
 }
-export const addTaskTC = (title: string, todolistId: string) => (dispatch:Dispatch<TasksActionsType>) => {
+export const addTaskTC = (title: string, todolistId: string) => (dispatch:Dispatch<AppActionsType>) => {
     tasksAPI.createTasks(title, todolistId).then((items) => {
         dispatch(addTaskAC(items.data.data.item, todolistId))
     })
 }
-export const removeTaskTC = (todolistId: string, taskId: string)=> (dispatch:Dispatch<TasksActionsType>) => {
+export const removeTaskTC = (todolistId: string, taskId: string)=> (dispatch:Dispatch<AppActionsType>) => {
     tasksAPI.deleteTasks(todolistId, taskId).then((res) => {
         if(res.data.resultCode=== 0){
             dispatch(removeTaskAC(taskId, todolistId))
@@ -67,7 +67,7 @@ export const removeTaskTC = (todolistId: string, taskId: string)=> (dispatch:Dis
 }
 
 export const updateTaskTC = (taskId: string, item: PayLoadType, todolistId: string)=>
-    (dispatch:Dispatch<TasksActionsType>, getState: () => StateAppType) => {
+    (dispatch:Dispatch<AppActionsType>, getState: () => StateAppType) => {
     const state = getState()
     const newTask = state.tasks.tasks.find(item => item.id === taskId)
     if (!newTask) return
@@ -79,8 +79,8 @@ export const updateTaskTC = (taskId: string, item: PayLoadType, todolistId: stri
         startDate: newTask.startDate,
         deadline: newTask.deadline, ...item
     } as PayLoadType
-    tasksAPI.updateTask(taskId, payLoad, todolistId).then((item) => {
-        if(item.data.resultCode === 0){
+    tasksAPI.updateTask(taskId, payLoad, todolistId).then((res) => {
+        if(res.data.resultCode === 0){
             dispatch(updateTaskAC(taskId, payLoad, todolistId))
         }
 
