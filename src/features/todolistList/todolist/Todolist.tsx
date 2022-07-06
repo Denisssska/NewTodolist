@@ -8,6 +8,8 @@ import {
 } from "./todolistReducer";
 import {useAppDispatch, useAppSelector} from "../../../hooks/hooks";
 
+
+
 type FilterValuesType = "all" | "active" | "completed";
 type PropsType = {
     title: string
@@ -18,8 +20,6 @@ type PropsType = {
 export const Todolist = React.memo((props: PropsType) => {
     const TaskState = useAppSelector(state => {
         return state.tasks.tasks.filter(item => item.todoListId === props.todolistId)
-        // const TaskState = useSelector<StateAppType>(state => {
-        // return state.tasks.tasks.filter(item => item.todoListId === props.todolistId)
 
     })
     const dispatch = useAppDispatch();
@@ -61,9 +61,9 @@ export const Todolist = React.memo((props: PropsType) => {
             <button onClick={removeTodolist}>delete</button>
         </h3>
         <AddFormItem addItem={(title) => addTask(title)}/>
+
         <div>
             {tasksForTodolist.map(item => {
-
                 return <Task
                     task={item}
                     todolistId={props.todolistId}
@@ -72,6 +72,7 @@ export const Todolist = React.memo((props: PropsType) => {
             })}
         </div>
         <div>
+
             <button className={props.filter === 'all' ? "active-filter" : ""}
                     onClick={() => changeFilter('all')}>All
             </button>
@@ -81,7 +82,9 @@ export const Todolist = React.memo((props: PropsType) => {
             <button className={props.filter === 'completed' ? "active-filter" : ""}
                     onClick={() => changeFilter('completed')}>Completed
             </button>
+
         </div>
+
     </div>
 })
 

@@ -5,6 +5,8 @@ import {
 } from "./TaskReducer";
 import {TaskType} from "../../../../API/TasksApi";
 import {useAppDispatch} from "../../../../hooks/hooks";
+import c from "../Todol.module.css";
+
 type TaskPropsType = {
     todolistId: string
     task: TaskType
@@ -32,7 +34,6 @@ export const Task = React.memo((props: TaskPropsType) => {
     }, [props.task.id, props.todolistId]);
 
     return <div key={props.task.id} className={props.task.status === 1 ? "is-done" : ""}>
-
         <input
             type='checkbox'
             onChange={changeStatus}

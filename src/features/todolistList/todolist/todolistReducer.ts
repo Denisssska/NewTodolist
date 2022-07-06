@@ -1,5 +1,6 @@
 import {todolistAPI, TodolistsType} from "../../../API/TodolistApi";
-import {AppThunk, ThunkType} from "../../../state/redux-store";
+import {AppThunk} from "../../../state/redux-store";
+import {loadingAC, setErrAC} from "../../../app/AppReducer";
 
 
 const REMOVE_TODOLIST = "remove todolist";
@@ -85,6 +86,7 @@ export const todolistReducer = (state: InitialTodolistStateType = initialState, 
 
 
 export const getTodolistsTC= ():AppThunk=>(dispatch)=>{
+
     todolistAPI.getTodolists()
         .then((res) => {
         console.log(res.data)
@@ -122,14 +124,17 @@ export const removeTodolistTC=(todolistId:string):AppThunk=>(dispatch)=>{
 export const changeTodolistTitleTC =(todolistId:string,newText:string):AppThunk=>async dispatch=>{
     try{
         const res = await todolistAPI.updateTodolist(todolistId, newText)
-        //console.log(res)
+        console.log(res.data.resultCode)
         if(res.data.resultCode ===0){
             dispatch(changeTodolistTitleAC(todolistId, newText))
+        }else{
+            dispatch(loadingAC(true))
+            dispatch(setErrAC(res.data.messages[0]))
+
         }
-    } catch (e){
-// @ts-ignore
+    } catch(e:any){
+
         throw new Error(e)
     }
     }
-
 

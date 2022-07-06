@@ -9,6 +9,8 @@ import {
 } from "../features/todolistList/todolist/todolistReducer";
 
 import {useAppDispatch, useAppSelector} from "../hooks/hooks";
+import {PositionedSnackbar} from "../components/SnackBar/SnackBar";
+
 
 export const App = () => {
     const TodolistState = useAppSelector(state => state.todolist.todolists)
@@ -25,6 +27,7 @@ export const App = () => {
 
     return (
         <div className="App">
+            <PositionedSnackbar/>
             <AddFormItem addItem={addTodolist}/>
             {
                 TodolistState.map((item) => {

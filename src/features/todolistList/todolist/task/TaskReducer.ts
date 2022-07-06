@@ -57,6 +57,7 @@ export const getTaskTC = (todolistId: string): AppThunk => (dispatch) => {
 }
 export const addTaskTC = (title: string, todolistId: string) => (dispatch: Dispatch<AppActionsType>) => {
     tasksAPI.createTasks(title, todolistId).then((items) => {
+        console.log(items.data.messages)
         dispatch(addTaskAC(items.data.data.item, todolistId))
     })
 }
