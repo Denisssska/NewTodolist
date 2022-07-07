@@ -2,6 +2,7 @@ import {addTodolistAC, removeTodolistAC} from "../todolistReducer";
 import {PayLoadType, tasksAPI, TaskType} from "../../../../API/TasksApi";
 import {AppActionsType, AppThunk, StateAppType} from "../../../../state/redux-store";
 import {Dispatch} from "redux";
+import {changeProcessAC} from "../../../../app/AppReducer";
 
 
 const REMOVE_TASK = 'remove task';
@@ -53,18 +54,23 @@ export const taskReducer = (state: InitialTaskStateType = initialTaskState, acti
 }
 
 export const getTaskTC = (todolistId: string): AppThunk => (dispatch) => {
+    dispatch(changeProcessAC(true))
     tasksAPI.getTasks(todolistId).then((data) => dispatch(getTaskAC(data.data.items)))
+    dispatch(changeProcessAC(false))
 }
 export const addTaskTC = (title: string, todolistId: string) => (dispatch: Dispatch<AppActionsType>) => {
+    dispatch(changeProcessAC(true))
     tasksAPI.createTasks(title, todolistId).then((items) => {
-        console.log(items.data.messages)
         dispatch(addTaskAC(items.data.data.item, todolistId))
+        dispatch(changeProcessAC(false))
     })
 }
 export const removeTaskTC = (todolistId: string, taskId: string): AppThunk => (dispatch) => {
+    dispatch(changeProcessAC(true))
     tasksAPI.deleteTasks(todolistId, taskId).then((res) => {
         if (res.data.resultCode === 0) {
             dispatch(removeTaskAC(taskId, todolistId))
+            dispatch(changeProcessAC(false))
         }
     })
 }
@@ -82,10 +88,11 @@ export const updateTaskTC = (taskId: string, item: PayLoadType, todolistId: stri
             startDate: newTask.startDate,
             deadline: newTask.deadline, ...item
         } as PayLoadType
+        dispatch(changeProcessAC(true))
         tasksAPI.updateTask(taskId, payLoad, todolistId).then((res) => {
             if (res.data.resultCode === 0) {
                 dispatch(updateTaskAC(taskId, payLoad, todolistId))
+                dispatch(changeProcessAC(false))
             }
-
         })
     }

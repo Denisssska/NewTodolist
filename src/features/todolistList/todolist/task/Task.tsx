@@ -4,8 +4,9 @@ import {
     removeTaskTC, updateTaskTC
 } from "./TaskReducer";
 import {TaskType} from "../../../../API/TasksApi";
-import {useAppDispatch} from "../../../../hooks/hooks";
-import c from "../Todol.module.css";
+import {useAppDispatch, useAppSelector} from "../../../../hooks/hooks";
+import Button from "@mui/material/Button";
+
 
 type TaskPropsType = {
     todolistId: string
@@ -14,7 +15,7 @@ type TaskPropsType = {
 }
 export const Task = React.memo((props: TaskPropsType) => {
     const dispatch = useAppDispatch();
-
+    const Process = useAppSelector(state => state.application.process)
     const removeTask = useCallback(() => {
         dispatch(removeTaskTC(props.todolistId, props.task.id))
     }, [props.todolistId, props.task.id]);
@@ -34,13 +35,13 @@ export const Task = React.memo((props: TaskPropsType) => {
     }, [props.task.id, props.todolistId]);
 
     return <div key={props.task.id} className={props.task.status === 1 ? "is-done" : ""}>
-        <input
+        <input disabled={Process}
             type='checkbox'
             onChange={changeStatus}
             checked={!!props.task.status}
         />
         <EditableSpan title={props.task.title} onChange={(title) => onChangeText(title)}/>
-        <button onClick={removeTask}>delete</button>
+         <Button disabled={Process} onClick={removeTask}>delete</Button>
     </div>
 });
 

@@ -1,4 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import {useAppSelector} from "../../hooks/hooks";
+import Button from "@mui/material/Button";
 
 
 type AddFormItemType = {
@@ -6,7 +8,7 @@ type AddFormItemType = {
 
 }
 export const AddFormItem =React.memo((props: AddFormItemType) => {
-
+    const Process = useAppSelector(state => state.application.process)
     let [title, setTitle] = useState("")
     let [error, setError] = useState<string | null>(null)
 
@@ -36,7 +38,7 @@ export const AddFormItem =React.memo((props: AddFormItemType) => {
                    onKeyDown={onKeyPressHandler}
                    className={error ? "error" : ""}
             />
-            <button color="secondary" onClick={addTask}>add</button>
+            <Button disabled={Process} color="secondary" onClick={addTask}>add</Button>
             {error && <div className="error-message">{error}</div>}
         </div>
     );

@@ -10,11 +10,12 @@ import {
 
 import {useAppDispatch, useAppSelector} from "../hooks/hooks";
 import {PositionedSnackbar} from "../components/SnackBar/SnackBar";
+import {LinearIndeterminate} from "../components/linearProgress/LinearIndeterminate";
 
 
 export const App = () => {
     const TodolistState = useAppSelector(state => state.todolist.todolists)
-    // const TodolistState = useSelector<StateAppType>(state => state.todolist.todolists) as Array<TodolistsType>;
+    const Process = useAppSelector(state => state.application.process)
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -26,21 +27,26 @@ export const App = () => {
     }, []);
 
     return (
-        <div className="App">
-            <PositionedSnackbar/>
-            <AddFormItem addItem={addTodolist}/>
-            {
-                TodolistState.map((item) => {
-                        return <Todolist title={item.title}
-                                         filter={item.filter}
-                                         todolistId={item.id}
-                                         key={item.id}
-                        />
-                    }
-                )
-            }
+        <div style={{width: '100%'}}>
+            {Process && <LinearIndeterminate/>}
+            <div className="App">
+                <PositionedSnackbar/>
+                <AddFormItem addItem={addTodolist}/>
+                {
+                    TodolistState.map((item) => {
+                            return <Todolist title={item.title}
+                                             filter={item.filter}
+                                             todolistId={item.id}
+                                             key={item.id}
 
-        </div>);
+                            />
+                        }
+                    )
+                }
+
+            </div>
+        </div>
+    );
 }
 
 

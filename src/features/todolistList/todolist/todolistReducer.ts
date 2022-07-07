@@ -1,6 +1,6 @@
 import {todolistAPI, TodolistsType} from "../../../API/TodolistApi";
 import {AppThunk} from "../../../state/redux-store";
-import {loadingAC, setErrAC} from "../../../app/AppReducer";
+import {changeProcessAC, loadingErrorAC, setErrAC} from "../../../app/AppReducer";
 
 
 const REMOVE_TODOLIST = "remove todolist";
@@ -86,29 +86,33 @@ export const todolistReducer = (state: InitialTodolistStateType = initialState, 
 
 
 export const getTodolistsTC= ():AppThunk=>(dispatch)=>{
-
     todolistAPI.getTodolists()
         .then((res) => {
         console.log(res.data)
         dispatch(getTodolistAC(res.data))
+            dispatch(changeProcessAC(false))
     })
         .catch((err) => {
 alert(err.message)
         })
 }
 export const addTodolistsTC= (title:string):AppThunk=>(dispatch)=>{
+    dispatch(changeProcessAC(true))
     todolistAPI.createTodolist(title)
         .then((item) => {
         //console.log(item)
       item && dispatch(addTodolistAC(item.title, item.id, item.addedDate, item.order))
+            dispatch(changeProcessAC(false))
     })
 }
 export const removeTodolistTC=(todolistId:string):AppThunk=>(dispatch)=>{
+    dispatch(changeProcessAC(true))
     todolistAPI.deleteTodolist(todolistId)
         .then((data)=>{
            // console.log(data)
             if(data.data.resultCode === 0){
                 dispatch(removeTodolistAC(todolistId))
+                dispatch(changeProcessAC(false))
             }
     })
 }
@@ -123,12 +127,15 @@ export const removeTodolistTC=(todolistId:string):AppThunk=>(dispatch)=>{
 ////синтаксис
 export const changeTodolistTitleTC =(todolistId:string,newText:string):AppThunk=>async dispatch=>{
     try{
+        dispatch(changeProcessAC(true))
         const res = await todolistAPI.updateTodolist(todolistId, newText)
         console.log(res.data.resultCode)
         if(res.data.resultCode ===0){
             dispatch(changeTodolistTitleAC(todolistId, newText))
+            dispatch(changeProcessAC(false))
         }else{
-            dispatch(loadingAC(true))
+            dispatch(changeProcessAC(false))
+            dispatch(loadingErrorAC(true))
             dispatch(setErrAC(res.data.messages[0]))
 
         }

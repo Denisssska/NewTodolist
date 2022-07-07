@@ -1,51 +1,27 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
-import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
-import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
-import {loadingAC} from "../../app/AppReducer";
 
-export interface State extends SnackbarOrigin {
-    open: boolean;
-}
+import Snackbar from '@mui/material/Snackbar';
+import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
+import {loadingErrorAC} from "../../app/AppReducer";
+
 
 export const PositionedSnackbar=() =>{
 const dispatch = useAppDispatch()
-    const message = useAppSelector(state=> state.application.error)
-    const opens = useAppSelector(state=> state.application.loading)
-    console.log(message)
-
-
-    const handleClick = (newState: SnackbarOrigin) => () => {
-
-    };
-
+    const error = useAppSelector(state=> state.application.error)
+    const loading = useAppSelector(state=> state.application.loading)
     const handleClose = () => {
-dispatch(loadingAC(false))
+dispatch(loadingErrorAC(false))
     };
-
-    const buttons = (
-        <React.Fragment>
-            <Button
-                onClick={handleClick({
-                    vertical: 'bottom',
-                    horizontal: 'center',
-                })}
-            >
-                Bottom-Center
-            </Button>
-        </React.Fragment>
-    );
 
     return (
         <div>
-            {buttons}
             <Snackbar
-                autoHideDuration={2000}
-                open={opens}
+                autoHideDuration={3000}
+                open={loading}
                 onClose={handleClose}
-                message={message}
-
+                message={error}
             />
+
         </div>
     );
 }
