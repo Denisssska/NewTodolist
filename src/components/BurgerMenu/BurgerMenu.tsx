@@ -2,7 +2,8 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-
+import MenuIcon from '@mui/icons-material/Menu';
+import {Header} from "../Header/Header";
 
 export function BurgerMenu() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -12,19 +13,18 @@ export function BurgerMenu() {
     };
     const handleClose = () => {
         setAnchorEl(null);
-
     };
-
     return (
         <div>
             <Button
+                style={{color: "white"}}
                 id="basic-button"
                 aria-controls={open ? 'basic-menu' : undefined}
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
                 onClick={handleClick}
             >
-                Menu
+                <MenuIcon/>
             </Button>
             <Menu
                 id="basic-menu"
@@ -35,9 +35,7 @@ export function BurgerMenu() {
                     'aria-labelledby': 'basic-button',
                 }}
             >
-                <MenuItem onClick={handleClose}>Todolist</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
+                <MenuItem onClick={handleClose}><Header/></MenuItem>
             </Menu>
         </div>
     );
