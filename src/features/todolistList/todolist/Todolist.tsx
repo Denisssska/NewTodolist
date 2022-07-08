@@ -4,26 +4,27 @@ import {EditableSpan} from "../../../components/EditableSpan/EditableSpan";
 import {Task} from "./task/Task";
 import {addTaskTC, getTaskTC} from "./task/TaskReducer";
 import {
-    changeTodolistFilterAC, changeTodolistTitleTC, removeTodolistTC
+    removeTodolistTC, updateTodolistTC
 } from "./todolistReducer";
 import {useAppDispatch, useAppSelector} from "../../../hooks/hooks";
 
 import Button from "@mui/material/Button";
+import {FilterValuesType} from "../../../API/TodolistApi";
 
 
-type FilterValuesType = "all" | "active" | "completed";
+
 type PropsType = {
     title: string
     filter: FilterValuesType
     todolistId: string
-
+    isDisabled:boolean
 }
 
 export const Todolist = React.memo((props: PropsType) => {
     const TaskState = useAppSelector(state => {
         return state.tasks.tasks.filter(item => item.todoListId === props.todolistId)
     })
-    const Process = useAppSelector(state => state.application.process)
+
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -32,7 +33,7 @@ export const Todolist = React.memo((props: PropsType) => {
     }, [props.todolistId])
 
     const changeFilter = useCallback((value: FilterValuesType) => {
-        dispatch(changeTodolistFilterAC(value, props.todolistId))
+        dispatch(updateTodolistTC(props.todolistId,{filter:value}))
     }, [props.todolistId]);
 
     const addTask = useCallback((title: string) => {
@@ -46,7 +47,7 @@ export const Todolist = React.memo((props: PropsType) => {
     }, [props.todolistId]);
 
     const changeTodolistTitle = useCallback((newText: string) => {
-        dispatch(changeTodolistTitleTC(props.todolistId, newText))
+        dispatch(updateTodolistTC(props.todolistId, {title:newText}))
 
 
     }, [props.todolistId]);
@@ -61,7 +62,7 @@ export const Todolist = React.memo((props: PropsType) => {
     }
     return <div>
         <h3><EditableSpan title={props.title} onChange={(newText) => changeTodolistTitle(newText)}/>
-            <Button disabled={Process} onClick={removeTodolist}>delete</Button>
+            <Button disabled={props.isDisabled}  onClick={removeTodolist}>delete</Button>
         </h3>
         <AddFormItem  addItem={(title) => addTask(title)}/>
 
@@ -71,6 +72,7 @@ export const Todolist = React.memo((props: PropsType) => {
                     task={item}
                     todolistId={props.todolistId}
                     key={item.id}
+
                 />
             })}
         </div>

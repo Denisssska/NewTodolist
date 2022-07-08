@@ -1,18 +1,24 @@
 import axios from "axios";
-import {FilterValuesType} from "../features/todolistList/todolist/todolistReducer";
+
+export type FilterValuesType = "all" | "active" | "completed";
 export type TodolistsType = {
     id: string
     title: string
     filter: FilterValuesType
     addedDate: string
     order: number
+    isDisabled:boolean
 }
-type ResponsType = {
+export type PayLoadTodolistType={
+    title?:string
+    isDisabled?:boolean
+    filter?: FilterValuesType
+}
+export type ResponseType<D = {}> = {
+    data: D
     resultCode: number
-    messages: string[],
-    data: {
-        item?: TodolistsType
-    }
+    messages: Array<string>
+    fieldsErrors: Array<string>
 }
 export const instance = axios.create({
     withCredentials: true,
@@ -24,18 +30,18 @@ export const instance = axios.create({
 
 export const todolistAPI = {
     createTodolist(title: string) {
-        return instance.post<ResponsType>(`todo-lists`, {title: title})
-            .then((res) => res.data.data.item)
+        return instance.post<ResponseType<{item:TodolistsType}>>(`todo-lists`, {title: title})
+            .then((res) => res)
     },
     getTodolists() {
         return instance.get<Array<TodolistsType>>(`todo-lists`)
 
     },
     deleteTodolist(todolistId: string) {
-        return instance.delete<ResponsType>(`todo-lists/${todolistId}`)
+        return instance.delete<ResponseType>(`todo-lists/${todolistId}`)
         // .then((res) => res.data)
     },
-    updateTodolist(todolistId: string, title: string) {
-        return instance.put<ResponsType>(`todo-lists/${todolistId}`, {title: title})
+    updateTodolist(todolistId: string,payLoad:PayLoadTodolistType) {
+        return instance.put<ResponseType>(`todo-lists/${todolistId}`, {...payLoad})
     }
 }

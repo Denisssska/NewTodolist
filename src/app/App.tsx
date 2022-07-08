@@ -9,13 +9,13 @@ import {
 } from "../features/todolistList/todolist/todolistReducer";
 
 import {useAppDispatch, useAppSelector} from "../hooks/hooks";
-import {PositionedSnackbar} from "../components/SnackBar/SnackBar";
+import {PositionedSnackbar} from "../components/ErrorSnackBar/SnackBar";
 import {LinearIndeterminate} from "../components/linearProgress/LinearIndeterminate";
 
 
 export const App = () => {
     const TodolistState = useAppSelector(state => state.todolist.todolists)
-    const Process = useAppSelector(state => state.application.process)
+    const process =useAppSelector(state => state.application.process)
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -28,7 +28,7 @@ export const App = () => {
 
     return (
         <div style={{width: '100%'}}>
-            {Process && <LinearIndeterminate/>}
+            {process&&<LinearIndeterminate/>}
             <div className="App">
                 <PositionedSnackbar/>
                 <AddFormItem addItem={addTodolist}/>
@@ -37,6 +37,7 @@ export const App = () => {
                             return <Todolist title={item.title}
                                              filter={item.filter}
                                              todolistId={item.id}
+                                             isDisabled={item.isDisabled}
                                              key={item.id}
 
                             />

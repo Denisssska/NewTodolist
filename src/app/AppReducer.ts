@@ -27,7 +27,7 @@ export const appReducer = (state: errorAppType = initialState, action: ErrorActi
 
             return <errorAppType>{...state, error: action.error}
         }
-        case "IS_PROCESS":{
+        case IS_PROCESS:{
             return {...state,process: action.process}
         }
         default:
