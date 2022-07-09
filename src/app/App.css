@@ -11,9 +11,13 @@
   margin-top: 2%;
 }
 .error {
-  border: red 1px solid;
+  border:none;
+  border-bottom: red 1px solid;
 }
-
+.norma{
+  border: none;
+  border-bottom: black 1px solid;
+}
 .error-message {
   color: red;
 }
