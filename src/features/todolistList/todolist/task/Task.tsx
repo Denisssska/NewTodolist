@@ -34,10 +34,9 @@ export const Task = React.memo((props: TaskPropsType) => {
     }, [props.task.id, props.todolistId]);
 
     return <div key={props.task.id} className={props.task.status === 1 ? "is-done" : ""}>
-        <input disabled={props.task.isDisabledTask}
-            type='checkbox'
-            onChange={changeStatus}
-            checked={!!props.task.status}
+
+        <input disabled={props.task.isDisabledTask} type='checkbox' onChange={changeStatus}
+               checked={!!props.task.status}
         />
         <EditableSpan title={props.task.title} onChange={(title) => onChangeText(title)}/>
          <Button disabled={props.task.isDisabledTask} onClick={removeTask}>delete</Button>

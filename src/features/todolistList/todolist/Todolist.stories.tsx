@@ -19,6 +19,6 @@ const removeTaskCallback = action('Task want to remove')
 const removeTodolistCallback = action('Todolist want to remove')
 
 export const TodolistExample: ComponentStory<typeof Todolist> = () => <div>
-    <Todolist filter={'active'} title={'todolist'} todolistId={'todolistId1'}/>
+    <Todolist filter={'active'} title={'todolist'} todolistId={'todolistId1'} isDisabled={false}/>
     </div>
 ;

@@ -6,7 +6,7 @@ export const PATH = {
     TODOLIST: '/todolist'
 }
 
-export function Pages() {
+export const Pages= React.memo(() =>{
     return (
         <div>
             {/*Routes выбирает первый подходящий роут*/}
@@ -19,5 +19,5 @@ export function Pages() {
             </Routes>
         </div>
     )
-}
+})
 

@@ -7,11 +7,10 @@ import {
     removeTodolistTC, updateTodolistTC
 } from "./todolistReducer";
 import {useAppDispatch, useAppSelector} from "../../../hooks/hooks";
-
 import Button from "@mui/material/Button";
 import {FilterValuesType} from "../../../API/TodolistApi";
-
-
+import c from './Todolist.module.css';
+import DeleteIcon from "@mui/icons-material/Delete";
 
 type PropsType = {
     title: string
@@ -60,10 +59,13 @@ export const Todolist = React.memo((props: PropsType) => {
     if (props.filter === "completed") {
         tasksForTodolist = tasksForTodolist.filter(t => t.status === 1);
     }
-    return <div>
-        <h3><EditableSpan title={props.title} onChange={(newText) => changeTodolistTitle(newText)}/>
-            <Button disabled={props.isDisabled}  onClick={removeTodolist}>delete</Button>
-        </h3>
+    return <div className={c.container}>
+        <div className={c.name}>
+           <EditableSpan title={props.title} onChange={(newText) => changeTodolistTitle(newText)}/>
+
+            <Button className={c.button} disabled={props.isDisabled}  onClick={removeTodolist}><DeleteIcon  className={c.delete}  style={{color:'whitesmoke'}}/></Button>
+        </div>
+
         <AddFormItem  addItem={(title) => addTask(title)}/>
 
         <div>

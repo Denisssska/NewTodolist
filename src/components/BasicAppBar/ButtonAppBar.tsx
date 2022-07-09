@@ -7,15 +7,19 @@ import Button from '@mui/material/Button';
 import {BurgerMenu} from "../BurgerMenu/BurgerMenu";
 
 
+
 export  function ButtonAppBar() {
+
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
                 <Toolbar>
                     <BurgerMenu/>
+
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         Todolist
                     </Typography>
+
                     <Button color="inherit">Login</Button>
                 </Toolbar>
             </AppBar>

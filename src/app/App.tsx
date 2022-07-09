@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect} from 'react';
 import './App.css';
-import {Todolist} from '../features/todolistList/todolist/Todolist';
+
 import {AddFormItem} from "../components/AddItemForm/AddFormItem";
 
 import {
@@ -11,11 +11,13 @@ import {
 import {useAppDispatch, useAppSelector} from "../hooks/hooks";
 import {PositionedSnackbar} from "../components/ErrorSnackBar/SnackBar";
 import {LinearIndeterminate} from "../components/linearProgress/LinearIndeterminate";
+import {SimplePaper} from "../components/Papper/SimplePaper";
 
 
-export const App = () => {
+export const App = React.memo(() => {
+    console.log('app render')
     const TodolistState = useAppSelector(state => state.todolist.todolists)
-    const process =useAppSelector(state => state.application.process)
+    const process = useAppSelector(state => state.application.process)
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -28,19 +30,21 @@ export const App = () => {
 
     return (
         <div style={{width: '100%'}}>
-            {process&&<LinearIndeterminate/>}
+            {process && <LinearIndeterminate/>}
+            <div className="FormItem">
+                <AddFormItem addItem={addTodolist}/>
+            </div>
             <div className="App">
                 <PositionedSnackbar/>
-                <AddFormItem addItem={addTodolist}/>
+                {/*<AddFormItem addItem={addTodolist}/>*/}
                 {
                     TodolistState.map((item) => {
-                            return <Todolist title={item.title}
-                                             filter={item.filter}
-                                             todolistId={item.id}
-                                             isDisabled={item.isDisabled}
-                                             key={item.id}
-
-                            />
+                            return <SimplePaper title={item.title}
+                                                filter={item.filter}
+                                                todolistId={item.id}
+                                                isDisabled={item.isDisabled}
+                                                key={item.id}
+                                                id={item.id}/>
                         }
                     )
                 }
@@ -48,6 +52,6 @@ export const App = () => {
             </div>
         </div>
     );
-}
+})
 
 
