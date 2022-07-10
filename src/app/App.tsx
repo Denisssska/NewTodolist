@@ -7,7 +7,6 @@ import {
     addTodolistsTC,
     getTodolistsTC,
 } from "../features/todolistList/todolist/todolistReducer";
-
 import {useAppDispatch, useAppSelector} from "../hooks/hooks";
 import {PositionedSnackbar} from "../components/ErrorSnackBar/SnackBar";
 import {LinearIndeterminate} from "../components/linearProgress/LinearIndeterminate";
@@ -21,6 +20,7 @@ export const App = React.memo(() => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
+
         dispatch(getTodolistsTC())
     }, [])
 
@@ -39,12 +39,10 @@ export const App = React.memo(() => {
                 {/*<AddFormItem addItem={addTodolist}/>*/}
                 {
                     TodolistState.map((item) => {
-                            return <SimplePaper title={item.title}
-                                                filter={item.filter}
-                                                todolistId={item.id}
-                                                isDisabled={item.isDisabled}
-                                                key={item.id}
-                                                id={item.id}/>
+                            return <SimplePaper
+                                item={item}
+                                key={item.id}
+                            />
                         }
                     )
                 }

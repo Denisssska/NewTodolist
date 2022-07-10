@@ -1,17 +1,23 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {ButtonAppBar} from "../components/BasicAppBar/ButtonAppBar";
-import {Pages} from "../components/Header/Pages";
-import {BrowserRouter} from "react-router-dom";
+import {Pages, PATH} from "../components/Header/Pages";
+import {BrowserRouter, Navigate} from "react-router-dom";
+import {useAppDispatch, useAppSelector} from "../hooks/hooks";
+import {getDataTC} from "../features/Auth/Auth-reducer";
 
 
-export const GlobalUa = () => {
+export const GlobalUa = React.memo(() => {
+    const dispatch = useAppDispatch()
+useEffect(()=>{
+    dispatch(getDataTC())
+})
     return (
         <>
             <BrowserRouter>
                 <ButtonAppBar/>
-                <Pages/>
+              <Pages/>
             </BrowserRouter>
         </>
     );
-};
+})
 

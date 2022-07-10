@@ -69,14 +69,15 @@ export const addTaskTC = (title: string, todolistId: string): AppThunk => (dispa
     dispatch(changeProcessAC(true))
     tasksAPI.createTasks(title, todolistId)
         .then((items) => {
-                if (items.data.data.item) {
+                if (items.data.resultCode=== 0) {
                     dispatch(addTaskAC(items.data.data.item, todolistId))
                     dispatch(changeProcessAC(false))
                     dispatch(loadingErrorAC(true))
                     dispatch(setErrAC('Successfully'))
+                }else{
+                    dispatch(changeProcessAC(false))
+                    handleServerAppError(items.data, dispatch)
                 }
-            dispatch(changeProcessAC(false))
-            handleServerAppError(items.data, dispatch)
             }
         )
         .catch(e => {

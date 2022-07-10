@@ -1,4 +1,4 @@
-import axios from "axios";
+import {instance} from "./TodolistApi";
 
 export type ResponseType<D = {}> = {
     data: D
@@ -34,13 +34,6 @@ export type TaskType = {
     addedDate: string
     isDisabledTask:boolean
 }
-export const instance = axios.create({
-    withCredentials: true,
-    baseURL: 'https://social-network.samuraijs.com/api/1.1/',
-    headers: {
-        "API-KEY": '4ecfeb70-7dff-4183-b8c3-af65f71d42cf'
-    }
-});
 
 export const tasksAPI = {
     createTasks(title: string, todolistId: string) {

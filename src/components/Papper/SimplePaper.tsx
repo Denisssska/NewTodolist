@@ -2,16 +2,12 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import {Todolist} from "../../features/todolistList/todolist/Todolist";
-import {FilterValuesType} from "../../API/TodolistApi";
+import {TodolistsType} from "../../API/TodolistApi";
 
 type PropsType = {
-    title: string
-    filter: FilterValuesType
-    todolistId: string
-    isDisabled:boolean
-    id:string
+    item: TodolistsType
 }
-export const SimplePaper=(props:PropsType)=> {
+export const SimplePaper = React.memo((props: PropsType) => {
     return (
         <Box
             sx={{
@@ -24,13 +20,13 @@ export const SimplePaper=(props:PropsType)=> {
             }}
         >
             <Paper elevation={3}>
-                <Todolist title={props.title}
-                          filter={props.filter}
-                          todolistId={props.id}
-                          isDisabled={props.isDisabled}
-                          key={props.id}
+                <Todolist title={props.item.title}
+                          filter={props.item.filter}
+                          todolistId={props.item.id}
+                          isDisabled={props.item.isDisabled}
+                          key={props.item.id}
                 />
             </Paper>
         </Box>
     );
-}
+})
