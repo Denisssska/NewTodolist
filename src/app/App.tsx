@@ -10,7 +10,6 @@ import {FormLogin} from "../features/Auth/FormikLogin/FormLogin";
 import {ButtonAppBar} from "../components/BasicAppBar/ButtonAppBar";
 import {getDataTC} from "../features/Auth/Auth-reducer";
 
-
 export const App = () => {
 
     console.log('app render')
