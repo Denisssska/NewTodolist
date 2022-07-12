@@ -1,6 +1,6 @@
 import {authApi, AuthDataType, AuthPayload} from "../../API/AuthApi";
 import {AppThunk} from "../../state/redux-store";
-import {changeProcessAC, loadingErrorAC, setErrAC} from "../../app/AppReducer";
+import {changeInitializedAC, changeProcessAC, loadingErrorAC, setErrAC} from "../../app/AppReducer";
 import { handleServerNetworkError} from "../../components/ErrorSnackBar/HandleError";
 
 
@@ -34,21 +34,20 @@ export const authReducer = (state: InitialDataStateType = initialState, action: 
     }
 }
 export const getDataTC = (): AppThunk => (dispatch) => {
-    dispatch(changeProcessAC(true))
     authApi.getMeAuth()
         .then(data => {
                 console.log(data.data.data)
                 if (data.data.resultCode === 0) {
-                    dispatch(changeProcessAC(false))
                     dispatch(getMeAuthAC(data.data.data, true))
                 } else{
                     dispatch(changeProcessAC(false))
                 }
+            dispatch(changeInitializedAC(true))
             }
         )
         .catch(e => {
                 handleServerNetworkError(e, dispatch)
-            dispatch(changeProcessAC(false))
+
             }
         )
 }
@@ -71,7 +70,6 @@ export const loginTC = (payLoad: AuthPayload): AppThunk => (dispatch) => {
             dispatch(changeProcessAC(false))
             }
         )
-
 }
 export const logOutTC = (): AppThunk => (dispatch) => {
     dispatch(changeProcessAC(true))

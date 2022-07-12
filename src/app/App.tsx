@@ -9,21 +9,22 @@ import {FormLogin} from "../features/Auth/FormikLogin/FormLogin";
 import {ButtonAppBar} from "../components/BasicAppBar/ButtonAppBar";
 import {getDataTC} from "../features/Auth/Auth-reducer";
 import load from '../img/load.gif';
+
 export const App = () => {
+    const initializedApp = useAppSelector(state =>state.application.initializedApp)
     console.log('app render')
     const dispatch = useAppDispatch();
     useEffect(() => {
-        dispatch(getDataTC())
-
+        setTimeout(()=>{
+            dispatch(getDataTC())
+        },2000)
     }, [])
     const process = useAppSelector(state => state.application.process)
-
+if(!initializedApp)return <div style={{margin:'20% 45%'}}><img src={load} alt=""/></div>
     return (
         <div style={{width: '100%'}}>
             <ButtonAppBar/>
             {process && <LinearIndeterminate/>}
-
-<div><img src={load} alt=""/></div>
             <div className="App">
                 <PositionedSnackbar/>
                 <Routes>

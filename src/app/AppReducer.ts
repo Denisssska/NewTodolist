@@ -1,6 +1,5 @@
 import {AppThunk} from "../state/redux-store";
-import {authApi} from "../API/AuthApi";
-import {changeAuthAC} from "../features/Auth/Auth-reducer";
+
 
 const IS_LOADING = 'IS_LOADING';
 const ERROR = 'ERROR';
@@ -48,13 +47,5 @@ export const appReducer = (state: errorAppType = initialState, action: ErrorActi
             return state
     }
 }
-//
-// export const changeInitializedAppTC = ():AppThunk=>(dispatch)=>{
-// authApi.getMeAuth().then(res=>{
-//     if(res.data.resultCode ===0){
-//         dispatch(changeAuthAC(true))
-//     }else{}
-//     dispatch(changeInitializedAC(true))
-// })
-// }
+
     

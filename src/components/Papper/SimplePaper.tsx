@@ -9,26 +9,26 @@ import {addTodolistsTC, getTodolistsTC} from "../../features/todolistList/todoli
 import {Navigate} from "react-router-dom";
 import {AddFormItem} from "../AddItemForm/AddFormItem";
 
+
 export const SimplePaper = React.memo(() => {
     const dispatch = useAppDispatch();
-    const isAuth= useAppSelector(state=>state.auth.isAuth)
-    // const initializedApp = useAppSelector(state =>state.application.initializedApp)
-    useEffect(() => {
-if(!isAuth) {
-    return;
-}
-        dispatch(getTodolistsTC())
-    }, [])
+    const isAuth = useAppSelector(state => state.auth.isAuth)
     const TodolistState = useAppSelector(state => state.todolist.todolists)
+
+    useEffect(() => {
+        if (!isAuth) {
+            return;
+        }
+
+        dispatch(getTodolistsTC())
+
+    }, [])
+
     const addTodolist = useCallback((title: string) => {
         dispatch(addTodolistsTC(title));
     }, []);
-    if(!isAuth)return <Navigate to={'/login'}/>
+    if (!isAuth) return <Navigate to={'/login'}/>
     return (
-
-
-
-
         <Box
             sx={{
                 display: 'flex',
@@ -44,7 +44,7 @@ if(!isAuth) {
             </div>
             {
                 TodolistState.map((item) => {
-                        return  <Paper key={item.id} elevation={3}>
+                        return <Paper key={item.id} elevation={3}>
                             <Todolist title={item.title}
                                       filter={item.filter}
                                       todolistId={item.id}
