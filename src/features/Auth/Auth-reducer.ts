@@ -1,7 +1,7 @@
 import {authApi, AuthDataType, AuthPayload} from "../../API/AuthApi";
 import {AppThunk} from "../../state/redux-store";
 import {changeProcessAC, loadingErrorAC, setErrAC} from "../../app/AppReducer";
-import {handleServerAppError, handleServerNetworkError} from "../../components/ErrorSnackBar/HandleError";
+import { handleServerNetworkError} from "../../components/ErrorSnackBar/HandleError";
 
 
 export type ActionsAuthType = ReturnType<typeof getMeAuthAC> | ReturnType<typeof changeAuthAC>
@@ -15,7 +15,6 @@ const initialState = {
 }
 const getMeAuthAC = (data: AuthDataType, isAuth: boolean) => ({type: 'GET_DATA', data, isAuth}) as const
 export const changeAuthAC = (isAuth: boolean) => ({type: 'CHANGE_AUTH', isAuth}) as const
-
 export const authReducer = (state: InitialDataStateType = initialState, action: ActionsAuthType): InitialDataStateType => {
     switch (action.type) {
         case GET_DATA: {
@@ -33,17 +32,21 @@ export const authReducer = (state: InitialDataStateType = initialState, action: 
     }
 }
 export const getDataTC = (): AppThunk => (dispatch) => {
+    dispatch(changeProcessAC(true))
     authApi.getMeAuth()
         .then(data => {
                 console.log(data.data.data)
                 if (data.data.resultCode === 0) {
+                    dispatch(changeProcessAC(false))
                     dispatch(getMeAuthAC(data.data.data, true))
-                } else {
+                } else{
+                    dispatch(changeProcessAC(false))
                 }
             }
         )
         .catch(e => {
-                handleServerNetworkError(e.message, dispatch)
+                handleServerNetworkError(e, dispatch)
+            dispatch(changeProcessAC(false))
             }
         )
 }
@@ -62,7 +65,7 @@ export const loginTC = (payLoad: AuthPayload): AppThunk => (dispatch) => {
             }
         )
         .catch(e => {
-                handleServerNetworkError(e.message, dispatch)
+                handleServerNetworkError(e, dispatch)
             dispatch(changeProcessAC(false))
             }
         )
@@ -84,7 +87,7 @@ export const logOutTC = (): AppThunk => (dispatch) => {
             }
         )
         .catch(e => {
-                handleServerNetworkError(e.message, dispatch)
+                handleServerNetworkError(e, dispatch)
             dispatch(changeProcessAC(false))
             }
         )

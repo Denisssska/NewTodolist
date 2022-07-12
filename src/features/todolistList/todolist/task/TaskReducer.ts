@@ -66,7 +66,7 @@ export const getTaskTC = (todolistId: string): AppThunk => (dispatch) => {
             }
         })
         .catch((e) => {
-                handleServerNetworkError(e.message, dispatch)
+                handleServerNetworkError(e, dispatch)
             dispatch(changeProcessAC(false))
             }
         )
@@ -88,7 +88,7 @@ export const addTaskTC = (title: string, todolistId: string): AppThunk => (dispa
             }
         )
         .catch(e => {
-            handleServerNetworkError(e.message, dispatch)
+            handleServerNetworkError(e, dispatch)
             dispatch(changeProcessAC(false))
         })
 
@@ -110,7 +110,7 @@ export const removeTaskTC = (todolistId: string, taskId: string): AppThunk => (d
             }
         )
         .catch(e => {
-                handleServerNetworkError(e.message, dispatch)
+                handleServerNetworkError(e, dispatch)
             dispatch(changeProcessAC(false))
             }
         )
@@ -145,7 +145,7 @@ export const updateTaskTC = (taskId: string, item: PayLoadType, todolistId: stri
                 }
             )
             .catch(e => {
-                    handleServerNetworkError(e.message, dispatch)
+                    handleServerNetworkError(e, dispatch)
                 dispatch(changeProcessAC(false))
                 }
             )

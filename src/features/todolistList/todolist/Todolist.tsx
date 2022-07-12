@@ -11,7 +11,7 @@ import Button from "@mui/material/Button";
 import {FilterValuesType} from "../../../API/TodolistApi";
 import c from './Todolist.module.css';
 import DeleteIcon from "@mui/icons-material/Delete";
-import {Navigate} from "react-router-dom";
+
 
 type PropsType = {
     title: string
@@ -21,8 +21,6 @@ type PropsType = {
 }
 
 export const Todolist = React.memo((props: PropsType) => {
-    const isAuth= useAppSelector(state=>state.auth.isAuth)
-
     const TaskState = useAppSelector(state => {
         return state.tasks.tasks.filter(item => item.todoListId === props.todolistId)
     })
@@ -30,9 +28,6 @@ export const Todolist = React.memo((props: PropsType) => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        if(!isAuth){
-            return;
-        }
         dispatch((getTaskTC(props.todolistId)))
         return console.log('dead useEffect')
     }, [props.todolistId])
@@ -65,9 +60,7 @@ export const Todolist = React.memo((props: PropsType) => {
     if (props.filter === "completed") {
         tasksForTodolist = tasksForTodolist.filter(t => t.status === 1);
     }
-    if(!isAuth){
-        return <Navigate to={'/login'}/>
-    }
+
     return <div className={c.container}>
         <div className={c.name}>
            <EditableSpan title={props.title} onChange={(newText) => changeTodolistTitle(newText)}/>

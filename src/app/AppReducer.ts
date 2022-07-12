@@ -38,7 +38,7 @@ export const appReducer = (state: errorAppType = initialState, action: ErrorActi
         case IS_PROCESS:{
             return {...state,process: action.process}
         }
-        case "IS_INITIALIZED":{
+        case IS_INITIALIZED:{
             return {
                 ...state,initializedApp:action.initialized
             }
@@ -47,14 +47,13 @@ export const appReducer = (state: errorAppType = initialState, action: ErrorActi
             return state
     }
 }
-
-export const changeInitializedAppTC = ():AppThunk=>(dispatch)=>{
-authApi.getMeAuth().then(res=>{
-    if(res.data.resultCode ===0){
-        dispatch(changeAuthAC(true))
-
-    }else{}
-    dispatch(changeInitializedAC(true))
-})
-}
+//
+// export const changeInitializedAppTC = ():AppThunk=>(dispatch)=>{
+// authApi.getMeAuth().then(res=>{
+//     if(res.data.resultCode ===0){
+//         dispatch(changeAuthAC(true))
+//     }else{}
+//     dispatch(changeInitializedAC(true))
+// })
+// }
     

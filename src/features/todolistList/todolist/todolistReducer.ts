@@ -89,7 +89,7 @@ export const getTodolistsTC = (): AppThunk => (dispatch) => {
         .catch((e) => {
             dispatch(changeProcessAC(false))
             dispatch(loadingErrorAC(true))
-                handleServerNetworkError(e.message, dispatch)
+                handleServerNetworkError(e, dispatch)
             }
         )
 }
@@ -97,6 +97,7 @@ export const addTodolistsTC = (title: string): AppThunk => (dispatch) => {
     dispatch(changeProcessAC(true))
     todolistAPI.createTodolist(title)
         .then((data) => {
+            console.log(data)
                 if (data.data.resultCode === 0) {
                     data.data.data.item && dispatch(addTodolistAC(data.data.data.item))
                     dispatch(changeProcessAC(false))
@@ -109,7 +110,7 @@ export const addTodolistsTC = (title: string): AppThunk => (dispatch) => {
             }
         )
         .catch(e => {
-                handleServerNetworkError(e.message, dispatch)
+                handleServerNetworkError(e, dispatch)
             dispatch(changeProcessAC(false))
             }
         )
@@ -131,7 +132,7 @@ export const removeTodolistTC = (todolistId: string): AppThunk => (dispatch) => 
             }
         )
         .catch(e => {
-                handleServerNetworkError(e.message, dispatch)
+                handleServerNetworkError(e, dispatch)
             dispatch(changeProcessAC(false))
             }
         )
@@ -159,7 +160,7 @@ export const updateTodolistTC = (todolistId: string, item: PayLoadTodolistType):
                 }
             }
         ).catch(e => {
-                handleServerNetworkError(e.message, dispatch)
+                handleServerNetworkError(e, dispatch)
             dispatch(changeProcessAC(false))
             }
         )
