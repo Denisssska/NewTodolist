@@ -57,32 +57,41 @@ export const getTaskTC = (todolistId: string): AppThunk => (dispatch) => {
     dispatch(changeProcessAC(true))
     tasksAPI.getTasks(todolistId)
         .then((data) => {
-            dispatch(getTaskAC(data.data.items))
-            dispatch(changeProcessAC(false))
+            if (data.data.items) {
+                dispatch(getTaskAC(data.data.items))
+                dispatch(changeProcessAC(false))
+            } else {
+                alert(data.data.error)
+                dispatch(changeProcessAC(false))
+            }
         })
         .catch((e) => {
                 handleServerNetworkError(e.message, dispatch)
+            dispatch(changeProcessAC(false))
             }
         )
+    dispatch(changeProcessAC(false))
 }
 export const addTaskTC = (title: string, todolistId: string): AppThunk => (dispatch) => {
     dispatch(changeProcessAC(true))
     tasksAPI.createTasks(title, todolistId)
         .then((items) => {
-                if (items.data.resultCode=== 0) {
+                if (items.data.resultCode === 0) {
                     dispatch(addTaskAC(items.data.data.item, todolistId))
-                    dispatch(changeProcessAC(false))
                     dispatch(loadingErrorAC(true))
                     dispatch(setErrAC('Successfully'))
-                }else{
                     dispatch(changeProcessAC(false))
+                } else {
                     handleServerAppError(items.data, dispatch)
+                    dispatch(changeProcessAC(false))
                 }
             }
         )
         .catch(e => {
             handleServerNetworkError(e.message, dispatch)
+            dispatch(changeProcessAC(false))
         })
+
 }
 export const removeTaskTC = (todolistId: string, taskId: string): AppThunk => (dispatch) => {
     dispatch(changeProcessAC(true))
@@ -90,8 +99,8 @@ export const removeTaskTC = (todolistId: string, taskId: string): AppThunk => (d
     tasksAPI.deleteTasks(todolistId, taskId)
         .then((res) => {
                 if (res.data.resultCode === 0) {
-                    dispatch(removeTaskAC(taskId, todolistId))
                     dispatch(changeProcessAC(false))
+                    dispatch(removeTaskAC(taskId, todolistId))
                     dispatch(loadingErrorAC(true))
                     dispatch(setErrAC('Successfully'))
                 } else {
@@ -102,7 +111,7 @@ export const removeTaskTC = (todolistId: string, taskId: string): AppThunk => (d
         )
         .catch(e => {
                 handleServerNetworkError(e.message, dispatch)
-
+            dispatch(changeProcessAC(false))
             }
         )
 }
@@ -126,18 +135,19 @@ export const updateTaskTC = (taskId: string, item: PayLoadType, todolistId: stri
         tasksAPI.updateTask(taskId, payLoad, todolistId)
             .then((res) => {
                     if (res.data.resultCode === 0) {
+                        dispatch(changeProcessAC(false))
                         dispatch(updateTaskAC(taskId, payLoad, todolistId))
-                        dispatch(changeProcessAC(false))
                     } else {
-                        handleServerAppError(res.data, dispatch)
                         dispatch(changeProcessAC(false))
+                        handleServerAppError(res.data, dispatch)
                         dispatch(updateTaskAC(taskId, {isDisabledTask: false}, todolistId))
                     }
                 }
             )
             .catch(e => {
                     handleServerNetworkError(e.message, dispatch)
-
+                dispatch(changeProcessAC(false))
                 }
             )
+
     }

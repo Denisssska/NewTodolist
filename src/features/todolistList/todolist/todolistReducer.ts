@@ -71,16 +71,24 @@ export const todolistReducer = (state: InitialTodolistStateType = initialState, 
 }
 
 export const getTodolistsTC = (): AppThunk => (dispatch) => {
+    dispatch(changeProcessAC(true))
     todolistAPI.getTodolists()
         .then((data) => {
-                if (data)
+                if (data.data){
                     dispatch(getTodolistAC(data.data))
-                dispatch(changeProcessAC(false))
-                dispatch(loadingErrorAC(true))
-                dispatch(setErrAC('Successfully'))
+                    dispatch(changeProcessAC(false))
+                    dispatch(loadingErrorAC(true))
+                    dispatch(setErrAC('Successfully'))
+                }else{
+                    dispatch(loadingErrorAC(true))
+                    dispatch(setErrAC(data.request.error))
+                    dispatch(changeProcessAC(false))
+                }
             }
         )
         .catch((e) => {
+            dispatch(changeProcessAC(false))
+            dispatch(loadingErrorAC(true))
                 handleServerNetworkError(e.message, dispatch)
             }
         )
@@ -102,6 +110,7 @@ export const addTodolistsTC = (title: string): AppThunk => (dispatch) => {
         )
         .catch(e => {
                 handleServerNetworkError(e.message, dispatch)
+            dispatch(changeProcessAC(false))
             }
         )
 }
@@ -117,11 +126,13 @@ export const removeTodolistTC = (todolistId: string): AppThunk => (dispatch) => 
                     dispatch(setErrAC('Successfully'))
                 } else {
                     handleServerAppError(data.data, dispatch)
+                    dispatch(changeProcessAC(false))
                 }
             }
         )
         .catch(e => {
                 handleServerNetworkError(e.message, dispatch)
+            dispatch(changeProcessAC(false))
             }
         )
 }
@@ -149,6 +160,7 @@ export const updateTodolistTC = (todolistId: string, item: PayLoadTodolistType):
             }
         ).catch(e => {
                 handleServerNetworkError(e.message, dispatch)
+            dispatch(changeProcessAC(false))
             }
         )
     }

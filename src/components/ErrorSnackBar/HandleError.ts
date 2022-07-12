@@ -10,13 +10,11 @@ export const handleServerAppError = (data: ResponseType, dispatch:AppDispatch) =
     if (data.messages.length) {
         dispatch(loadingErrorAC(true))
         dispatch(setErrAC(data.messages[0]))
-    } else if(data.resultCode !== 0 && data.messages) {
-        dispatch(setErrAC('Some error occurred'))
     }
     dispatch(setErrAC(data.messages[0]))
 }
 
 export const handleServerNetworkError = (error: {message: string},dispatch: AppDispatch) => {
-
-    dispatch(setErrAC('failed'))
+    dispatch(loadingErrorAC(true))
+    dispatch(setErrAC(error.message))
 }

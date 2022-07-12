@@ -2,12 +2,12 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import {Todolist} from "../../features/todolistList/todolist/Todolist";
-import {TodolistsType} from "../../API/TodolistApi";
 
-type PropsType = {
-    item: TodolistsType
-}
-export const SimplePaper = React.memo((props: PropsType) => {
+import {useAppSelector} from "../../hooks/hooks";
+
+export const SimplePaper = React.memo(() => {
+    const TodolistState = useAppSelector(state => state.todolist.todolists)
+
     return (
         <Box
             sx={{
@@ -19,14 +19,19 @@ export const SimplePaper = React.memo((props: PropsType) => {
                 },
             }}
         >
-            <Paper elevation={3}>
-                <Todolist title={props.item.title}
-                          filter={props.item.filter}
-                          todolistId={props.item.id}
-                          isDisabled={props.item.isDisabled}
-                          key={props.item.id}
-                />
-            </Paper>
+            {
+                TodolistState.map((item) => {
+                        return  <Paper key={item.id} elevation={3}>
+                            <Todolist title={item.title}
+                                      filter={item.filter}
+                                      todolistId={item.id}
+                                      isDisabled={item.isDisabled}
+                                      key={item.id}
+                            />
+                        </Paper>
+                    }
+                )
+            }
         </Box>
     );
 })

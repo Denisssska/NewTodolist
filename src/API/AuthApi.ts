@@ -1,4 +1,4 @@
-import {instance} from "./TodolistApi";
+import {instance, ResponseType} from "./TodolistApi";
 export type AuthDataType={
     id: number |null
     email: string |null
@@ -29,10 +29,10 @@ export type AuthPayload={
 }
 export const authApi={
     loginUser(payload:AuthPayload){
-       return instance.post<AuthType>(`auth/login`,{...payload})
+       return instance.post<ResponseType<{userId?:number}>>(`auth/login`,{...payload})
     },
     getMeAuth() {
-        return instance.get<GetMeAuth>(`auth/me`)
+        return instance.get<ResponseType<{id:number,email:string,login:string}>>(`auth/me`)
 
     },
     logOut(){

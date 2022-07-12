@@ -5,18 +5,27 @@ import MenuItem from '@mui/material/MenuItem';
 import MenuIcon from '@mui/icons-material/Menu';
 import {Header} from "../Header/Header";
 import {useCallback} from "react";
+import {Navigate, NavLink, Route, Routes} from "react-router-dom";
+import c from "../Header/header.module.css";
+import {logOutTC} from "../../features/Auth/Auth-reducer";
+import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 
 
-export const BurgerMenu =  React.memo(()=> {
-
+export const BurgerMenu = React.memo(() => {
+    const isAuth = useAppSelector(state => state.auth.isAuth)
+    const dispatch = useAppDispatch()
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
-    },[]);
-    const handleClose =useCallback (() => {
+    }, []);
+    const handleClose = useCallback(() => {
         setAnchorEl(null);
-    },[]);
+    }, []);
+    const logOutHandler = useCallback(() => {
+        dispatch(logOutTC())
+        handleClose()
+    }, [])
     return (
         <div>
             <Button
@@ -38,7 +47,10 @@ export const BurgerMenu =  React.memo(()=> {
                     'aria-labelledby': 'basic-button',
                 }}
             >
-                <MenuItem onClick={handleClose}><Header/></MenuItem>
+
+                {isAuth?<MenuItem onClick={logOutHandler}><NavLink className={c.navLink} to='/login'>LogOut</NavLink></MenuItem>:
+                    <MenuItem onClick={handleClose}><NavLink className={c.navLink} to='/login'>Login</NavLink></MenuItem>
+                }
             </Menu>
         </div>
     );

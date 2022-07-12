@@ -4,16 +4,17 @@ import {changeProcessAC, loadingErrorAC, setErrAC} from "../../app/AppReducer";
 import {handleServerAppError, handleServerNetworkError} from "../../components/ErrorSnackBar/HandleError";
 
 
-export type ActionsAuthType = ReturnType<typeof getMeAuthAC>
+export type ActionsAuthType = ReturnType<typeof getMeAuthAC> | ReturnType<typeof changeAuthAC>
 
 type InitialDataStateType = typeof initialState
 const GET_DATA = 'GET_DATA';
-
+const CHANGE_AUTH = 'CHANGE_AUTH'
 const initialState = {
     data: {} as AuthDataType,
     isAuth: false
 }
 const getMeAuthAC = (data: AuthDataType, isAuth: boolean) => ({type: 'GET_DATA', data, isAuth}) as const
+export const changeAuthAC = (isAuth: boolean) => ({type: 'CHANGE_AUTH', isAuth}) as const
 
 export const authReducer = (state: InitialDataStateType = initialState, action: ActionsAuthType): InitialDataStateType => {
     switch (action.type) {
@@ -22,23 +23,22 @@ export const authReducer = (state: InitialDataStateType = initialState, action: 
                 ...state, data: action.data, isAuth: action.isAuth
             }
         }
+        case CHANGE_AUTH: {
+            return {
+                ...state, isAuth: action.isAuth
+            }
+        }
         default:
             return state
     }
 }
 export const getDataTC = (): AppThunk => (dispatch) => {
-    dispatch(changeProcessAC(true))
     authApi.getMeAuth()
         .then(data => {
-            console.log(data.data.data)
+                console.log(data.data.data)
                 if (data.data.resultCode === 0) {
                     dispatch(getMeAuthAC(data.data.data, true))
-                    dispatch(changeProcessAC(false))
-                    dispatch(loadingErrorAC(true))
-                    dispatch(setErrAC('Successfully'))
                 } else {
-                    handleServerAppError(data.data, dispatch)
-                    dispatch(changeProcessAC(false))
                 }
             }
         )
@@ -51,40 +51,41 @@ export const loginTC = (payLoad: AuthPayload): AppThunk => (dispatch) => {
     dispatch(changeProcessAC(true))
     authApi.loginUser(payLoad)
         .then(data => {
-            console.log(data.data)
                 if (data.data.resultCode === 0) {
-                    console.log(data.data)
-                    dispatch(getDataTC())
                     dispatch(changeProcessAC(false))
+                    dispatch(getDataTC())
+                    dispatch(loadingErrorAC(true))
+                    dispatch(setErrAC('Successfully'))
                 } else {
-                    handleServerAppError(data.data, dispatch)
                     dispatch(changeProcessAC(false))
                 }
             }
         )
         .catch(e => {
                 handleServerNetworkError(e.message, dispatch)
+            dispatch(changeProcessAC(false))
             }
         )
+
 }
 export const logOutTC = (): AppThunk => (dispatch) => {
     dispatch(changeProcessAC(true))
     authApi.logOut()
         .then(data => {
                 if (data.data.resultCode === 0) {
+                    dispatch(changeProcessAC(false))
                     console.log(data.data)
                     dispatch(getMeAuthAC({...data, login: null, email: null, id: null}, false))
-                    dispatch(changeProcessAC(false))
                     dispatch(loadingErrorAC(true))
                     dispatch(setErrAC('Successfully'))
                 } else {
-                    handleServerAppError(data.data, dispatch)
                     dispatch(changeProcessAC(false))
                 }
             }
         )
         .catch(e => {
                 handleServerNetworkError(e.message, dispatch)
+            dispatch(changeProcessAC(false))
             }
         )
 }
