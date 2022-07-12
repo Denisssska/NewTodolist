@@ -14,19 +14,14 @@ type DeleteMe ={
     messages: string[],
     data: {}
 }
-type AuthType ={
-    resultCode:number
-    messages: string[],
-    data: {
-        userId: number
-    }
-}
+
 export type AuthPayload={
     email:string
     password:string
     rememberMe:boolean
     captcha?:boolean
 }
+
 export const authApi={
     loginUser(payload:AuthPayload){
        return instance.post<ResponseType<{userId?:number}>>(`auth/login`,{...payload})

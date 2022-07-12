@@ -23,9 +23,6 @@ export const App = () => {
             <ButtonAppBar/>
             {process && <LinearIndeterminate/>}
 
-
-
-
 <div><img src={load} alt=""/></div>
             <div className="App">
                 <PositionedSnackbar/>

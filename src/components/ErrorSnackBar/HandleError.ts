@@ -14,6 +14,7 @@ export const handleServerAppError = (data: ResponseType, dispatch:AppDispatch) =
     dispatch(setErrAC(data.messages[0]))
 }
 
+
 export const handleServerNetworkError = (error: {message: string},dispatch: AppDispatch) => {
     console.dir(error)
     dispatch(loadingErrorAC(true))

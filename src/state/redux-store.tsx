@@ -15,6 +15,7 @@ const reducersBox = combineReducers({
 let store = legacy_createStore(reducersBox, applyMiddleware(thunk))
 // export type StoreType = typeof store;
 
+
 export default store
 export type AppActionsType = TodolistsActionType | TasksActionsType|ErrorActionType|ActionsAuthType
 export type ThunkType = ThunkAction<void, StateAppType, unknown, AppActionsType>

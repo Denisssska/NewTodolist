@@ -4,8 +4,6 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import {BurgerMenu} from "../BurgerMenu/BurgerMenu";
-import {useAppSelector} from "../../hooks/hooks";
-
 
 
 export const ButtonAppBar=React.memo(()=> {

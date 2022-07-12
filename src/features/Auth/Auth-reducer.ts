@@ -4,6 +4,8 @@ import {changeProcessAC, loadingErrorAC, setErrAC} from "../../app/AppReducer";
 import { handleServerNetworkError} from "../../components/ErrorSnackBar/HandleError";
 
 
+
+
 export type ActionsAuthType = ReturnType<typeof getMeAuthAC> | ReturnType<typeof changeAuthAC>
 
 type InitialDataStateType = typeof initialState

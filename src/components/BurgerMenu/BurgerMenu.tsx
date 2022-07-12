@@ -3,9 +3,9 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MenuIcon from '@mui/icons-material/Menu';
-import {Header} from "../Header/Header";
+
 import {useCallback} from "react";
-import {Navigate, NavLink, Route, Routes} from "react-router-dom";
+import { NavLink} from "react-router-dom";
 import c from "../Header/header.module.css";
 import {logOutTC} from "../../features/Auth/Auth-reducer";
 import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
@@ -47,6 +47,7 @@ export const BurgerMenu = React.memo(() => {
                     'aria-labelledby': 'basic-button',
                 }}
             >
+
 
                 {isAuth?<MenuItem onClick={logOutHandler}><NavLink className={c.navLink} to='/login'>LogOut</NavLink></MenuItem>:
                     <MenuItem onClick={handleClose}><NavLink className={c.navLink} to='/login'>Login</NavLink></MenuItem>

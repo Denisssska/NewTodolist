@@ -136,6 +136,8 @@ export const updateTaskTC = (taskId: string, item: PayLoadType, todolistId: stri
             .then((res) => {
                     if (res.data.resultCode === 0) {
                         dispatch(changeProcessAC(false))
+
+
                         dispatch(updateTaskAC(taskId, payLoad, todolistId))
                     } else {
                         dispatch(changeProcessAC(false))

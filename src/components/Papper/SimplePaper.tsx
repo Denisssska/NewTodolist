@@ -25,6 +25,7 @@ if(!isAuth) {
     }, []);
     if(!isAuth)return <Navigate to={'/login'}/>
     return (
+
         <Box
             sx={{
                 display: 'flex',
