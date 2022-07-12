@@ -1,6 +1,5 @@
 import React, {useEffect} from 'react';
 import './App.css';
-
 import {useAppDispatch, useAppSelector} from "../hooks/hooks";
 import {PositionedSnackbar} from "../components/ErrorSnackBar/SnackBar";
 import {LinearIndeterminate} from "../components/linearProgress/LinearIndeterminate";
@@ -9,7 +8,7 @@ import {Route, Routes} from "react-router-dom";
 import {FormLogin} from "../features/Auth/FormikLogin/FormLogin";
 import {ButtonAppBar} from "../components/BasicAppBar/ButtonAppBar";
 import {getDataTC} from "../features/Auth/Auth-reducer";
-
+import load from '../img/load.gif';
 export const App = () => {
     console.log('app render')
     const dispatch = useAppDispatch();
@@ -24,7 +23,7 @@ export const App = () => {
             <ButtonAppBar/>
             {process && <LinearIndeterminate/>}
 
-
+<div><img src={load} alt=""/></div>
             <div className="App">
                 <PositionedSnackbar/>
                 <Routes>
