@@ -28,6 +28,7 @@ export const Todolist = React.memo((props: PropsType) => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
+        if(TaskState.length)return;
         dispatch((getTaskTC(props.todolistId)))
         return console.log('dead useEffect')
     }, [props.todolistId])

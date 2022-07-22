@@ -65,8 +65,6 @@ export const todolistReducer = (state: InitialTodolistStateType = initialState, 
                     {...item, ...action.payLoad} : item)
             }
         }
-
-
         default:
             return state
     }
@@ -76,46 +74,42 @@ export const getTodolistsTC = (): AppThunk => (dispatch) => {
     dispatch(changeProcessAC(true))
     todolistAPI.getTodolists()
         .then((data) => {
-                if (data.data){
+                if (data.data) {
                     dispatch(getTodolistAC(data.data))
-                    dispatch(changeProcessAC(false))
                     dispatch(loadingErrorAC(true))
                     dispatch(setErrAC('Successfully'))
-                }else{
+                } else {
                     dispatch(loadingErrorAC(true))
                     dispatch(setErrAC(data.request.error))
-                    dispatch(changeProcessAC(false))
                 }
             }
         )
         .catch((e) => {
-            dispatch(changeProcessAC(false))
-            dispatch(loadingErrorAC(true))
+                dispatch(loadingErrorAC(true))
                 handleServerNetworkError(e, dispatch)
             }
         )
+        .finally(() => dispatch(changeProcessAC(false)))
 }
 export const addTodolistsTC = (title: string): AppThunk => (dispatch) => {
     dispatch(changeProcessAC(true))
     todolistAPI.createTodolist(title)
         .then((data) => {
-            console.log(data)
+                console.log(data)
                 if (data.data.resultCode === 0) {
                     data.data.data.item && dispatch(addTodolistAC(data.data.data.item))
-                    dispatch(changeProcessAC(false))
                     dispatch(loadingErrorAC(true))
                     dispatch(setErrAC('Successfully'))
                 } else {
                     handleServerAppError(data.data, dispatch)
-                    dispatch(changeProcessAC(false))
                 }
             }
         )
         .catch(e => {
                 handleServerNetworkError(e, dispatch)
-            dispatch(changeProcessAC(false))
             }
         )
+        .finally(() => dispatch(changeProcessAC(false)))
 }
 export const removeTodolistTC = (todolistId: string): AppThunk => (dispatch) => {
     dispatch(changeProcessAC(true))
@@ -124,20 +118,18 @@ export const removeTodolistTC = (todolistId: string): AppThunk => (dispatch) => 
         .then((data) => {
                 if (data.data.resultCode === 0) {
                     dispatch(removeTodolistAC(todolistId))
-                    dispatch(changeProcessAC(false))
                     dispatch(loadingErrorAC(true))
                     dispatch(setErrAC('Successfully'))
                 } else {
                     handleServerAppError(data.data, dispatch)
-                    dispatch(changeProcessAC(false))
                 }
             }
         )
         .catch(e => {
                 handleServerNetworkError(e, dispatch)
-            dispatch(changeProcessAC(false))
             }
         )
+        .finally(() => dispatch(changeProcessAC(false)))
 }
 export const updateTodolistTC = (todolistId: string, item: PayLoadTodolistType): AppThunk =>
     (dispatch, getState: () => StateAppType) => {
@@ -153,18 +145,16 @@ export const updateTodolistTC = (todolistId: string, item: PayLoadTodolistType):
         todolistAPI.updateTodolist(todolistId, payLoad).then(data => {
                 if (data.data.resultCode === 0) {
                     dispatch(updateTodolistAC(todolistId, payLoad))
-                    dispatch(changeProcessAC(false))
                     dispatch(loadingErrorAC(true))
                     dispatch(setErrAC('Successfully'))
                 } else {
-                    handleServerAppError(data.data,dispatch)
-                    dispatch(changeProcessAC(false))
+                    handleServerAppError(data.data, dispatch)
                 }
             }
         ).catch(e => {
                 handleServerNetworkError(e, dispatch)
-            dispatch(changeProcessAC(false))
             }
         )
+            .finally(() => dispatch(changeProcessAC(false)))
     }
 

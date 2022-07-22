@@ -48,8 +48,7 @@ export const BurgerMenu = React.memo(() => {
                 }}
             >
 
-
-                {isAuth?<MenuItem onClick={logOutHandler}><NavLink className={c.navLink} to='/login'>LogOut</NavLink></MenuItem>:
+                {isAuth?<MenuItem onClick={logOutHandler}>Logout</MenuItem>:
                     <MenuItem onClick={handleClose}><NavLink className={c.navLink} to='/login'>Login</NavLink></MenuItem>
                 }
             </Menu>

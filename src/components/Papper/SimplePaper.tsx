@@ -14,12 +14,11 @@ export const SimplePaper = React.memo(() => {
     const dispatch = useAppDispatch();
     const isAuth = useAppSelector(state => state.auth.isAuth)
     const TodolistState = useAppSelector(state => state.todolist.todolists)
-
+    console.log(isAuth)
     useEffect(() => {
         if (!isAuth) {
             return;
         }
-
         dispatch(getTodolistsTC())
 
     }, [])

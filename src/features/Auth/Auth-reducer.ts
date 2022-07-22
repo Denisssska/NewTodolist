@@ -21,7 +21,7 @@ export const authReducer = (state: InitialDataStateType = initialState, action: 
     switch (action.type) {
         case GET_DATA: {
             return {
-                ...state, data: action.data, isAuth: action.isAuth
+                ...state, data:{...action.data}, isAuth: action.isAuth
             }
         }
         case CHANGE_AUTH: {
@@ -39,56 +39,47 @@ export const getDataTC = (): AppThunk => (dispatch) => {
                 console.log(data.data.data)
                 if (data.data.resultCode === 0) {
                     dispatch(getMeAuthAC(data.data.data, true))
-                } else{
-                    dispatch(changeProcessAC(false))
                 }
             dispatch(changeInitializedAC(true))
             }
         )
         .catch(e => {
                 handleServerNetworkError(e, dispatch)
-
             }
         )
+        .finally(()=>dispatch(changeProcessAC(false)))
 }
 export const loginTC = (payLoad: AuthPayload): AppThunk => (dispatch) => {
     dispatch(changeProcessAC(true))
     authApi.loginUser(payLoad)
         .then(data => {
                 if (data.data.resultCode === 0) {
-                    dispatch(changeProcessAC(false))
                     dispatch(getDataTC())
                     dispatch(loadingErrorAC(true))
                     dispatch(setErrAC('Successfully'))
-                } else {
-                    dispatch(changeProcessAC(false))
                 }
             }
         )
         .catch(e => {
                 handleServerNetworkError(e, dispatch)
-            dispatch(changeProcessAC(false))
             }
         )
+        .finally(()=>dispatch(changeProcessAC(false)))
 }
 export const logOutTC = (): AppThunk => (dispatch) => {
     dispatch(changeProcessAC(true))
     authApi.logOut()
         .then(data => {
                 if (data.data.resultCode === 0) {
-                    dispatch(changeProcessAC(false))
-                    console.log(data.data)
-                    dispatch(getMeAuthAC({...data, login: null, email: null, id: null}, false))
+                    dispatch(getMeAuthAC({login: null, email: null, id: null}, false))
                     dispatch(loadingErrorAC(true))
                     dispatch(setErrAC('Successfully'))
-                } else {
-                    dispatch(changeProcessAC(false))
                 }
             }
         )
         .catch(e => {
                 handleServerNetworkError(e, dispatch)
-            dispatch(changeProcessAC(false))
             }
         )
+        .finally(()=>dispatch(changeProcessAC(false)))
 }

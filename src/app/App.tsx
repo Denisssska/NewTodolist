@@ -12,7 +12,7 @@ import load from '../img/load.gif';
 
 export const App = () => {
     const initializedApp = useAppSelector(state =>state.application.initializedApp)
-    console.log('app render')
+
     const dispatch = useAppDispatch();
     useEffect(() => {
         setTimeout(()=>{

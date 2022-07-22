@@ -1,6 +1,3 @@
-import {AppThunk} from "../state/redux-store";
-
-
 const IS_LOADING = 'IS_LOADING';
 const ERROR = 'ERROR';
 const IS_PROCESS = 'IS_PROCESS';
