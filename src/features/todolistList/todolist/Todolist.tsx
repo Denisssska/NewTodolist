@@ -17,7 +17,7 @@ type PropsType = {
     title: string
     filter: FilterValuesType
     todolistId: string
-    isDisabled:boolean
+    isDisabled: boolean
 }
 
 export const Todolist = React.memo((props: PropsType) => {
@@ -26,15 +26,14 @@ export const Todolist = React.memo((props: PropsType) => {
     })
 
     const dispatch = useAppDispatch();
-
     useEffect(() => {
-        if(TaskState.length)return;
+        if (TaskState.length) return;
         dispatch((getTaskTC(props.todolistId)))
         return console.log('dead useEffect')
     }, [props.todolistId])
 
     const changeFilter = useCallback((value: FilterValuesType) => {
-        dispatch(updateTodolistTC(props.todolistId,{filter:value}))
+        dispatch(updateTodolistTC(props.todolistId, {filter: value}))
     }, [props.todolistId]);
 
     const addTask = useCallback((title: string) => {
@@ -48,7 +47,7 @@ export const Todolist = React.memo((props: PropsType) => {
     }, [props.todolistId]);
 
     const changeTodolistTitle = useCallback((newText: string) => {
-        dispatch(updateTodolistTC(props.todolistId, {title:newText}))
+        dispatch(updateTodolistTC(props.todolistId, {title: newText}))
 
 
     }, [props.todolistId]);
@@ -64,12 +63,13 @@ export const Todolist = React.memo((props: PropsType) => {
 
     return <div className={c.container}>
         <div className={c.name}>
-           <EditableSpan title={props.title} onChange={(newText) => changeTodolistTitle(newText)}/>
+            <EditableSpan title={props.title} onChange={(newText) => changeTodolistTitle(newText)}/>
 
-            <Button className={c.button} disabled={props.isDisabled}  onClick={removeTodolist}><DeleteIcon  className={c.delete}  style={{color:'whitesmoke'}}/></Button>
+            <Button className={c.button} disabled={props.isDisabled} onClick={removeTodolist}><DeleteIcon
+                className={c.delete} style={{color: 'whitesmoke'}}/></Button>
         </div>
 
-        <AddFormItem  addItem={(title) => addTask(title)}/>
+        <AddFormItem addItem={(title) => addTask(title)}/>
 
         <div>
             {tasksForTodolist.map(item => {

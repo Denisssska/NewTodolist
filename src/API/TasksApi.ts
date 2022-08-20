@@ -20,7 +20,7 @@ export type PayLoadType = {
     priority?: number
     startDate?: string
     deadline?: string
-    isDisabledTask?:boolean
+    isDisabledTask?: boolean
 }
 export type TaskType = {
     id: string
@@ -33,12 +33,12 @@ export type TaskType = {
     todoListId: string
     order: number
     addedDate: string
-    isDisabledTask:boolean
+    isDisabledTask: boolean
 }
 
 export const tasksAPI = {
     createTasks(title: string, todolistId: string) {
-        return instance.post<ResponseType<{item:TaskType}>>(`todo-lists/${todolistId}/tasks`, {title: title})
+        return instance.post<ResponseType<{ item: TaskType }>>(`todo-lists/${todolistId}/tasks`, {title: title})
     },
     getTasks(todolistId: string) {
         return instance.get<GetTaskType>(`todo-lists/${todolistId}/tasks`)

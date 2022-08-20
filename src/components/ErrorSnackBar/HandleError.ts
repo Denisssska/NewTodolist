@@ -4,8 +4,7 @@ import {AppDispatch} from "../../state/redux-store";
 import {ResponseType} from "../../API/TodolistApi";
 
 
-
-export const handleServerAppError = (data: ResponseType, dispatch:AppDispatch) => {
+export const handleServerAppError = (data: ResponseType, dispatch: AppDispatch) => {
     console.dir(data.messages[0])
     if (data.messages.length) {
         dispatch(loadingErrorAC(true))
@@ -15,8 +14,8 @@ export const handleServerAppError = (data: ResponseType, dispatch:AppDispatch) =
 }
 
 
-export const handleServerNetworkError = (error: {message: string},dispatch: AppDispatch) => {
+export const handleServerNetworkError = (error: { message: string }, dispatch: AppDispatch) => {
     console.dir(error)
     dispatch(loadingErrorAC(true))
-    dispatch(setErrAC(error.message?error.message:'error some'))
+    dispatch(setErrAC(error.message ? error.message : 'error some'))
 }

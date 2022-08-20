@@ -12,8 +12,8 @@ export default {
     title: 'Task',
     components: Task,
     args: {
-        status:1,
-        taskId:'2',
+        status: 1,
+        taskId: '2',
         todolistId: todolistId1,
         changeTaskStatus: action('Task want to changed status'),
         onChangeText: action('Task want to changed text'),
@@ -22,9 +22,9 @@ export default {
     decorators: [ReduxStoreProviderDecorator]
 } as ComponentMeta<typeof Task>
 
-const TaskWithDispatch = (args:{todolistId:string}) => {
+const TaskWithDispatch = (args: { todolistId: string }) => {
     const task = useSelector<StateAppType>(state => state.tasks.tasks) as TaskType
-    return <Task todolistId={args.todolistId}   task={task}/>
+    return <Task todolistId={args.todolistId} task={task}/>
 }
 
 export const Template: ComponentStory<typeof Task> = (args) => <TaskWithDispatch {...args}/>

@@ -39,7 +39,7 @@ export const Task = React.memo((props: TaskPropsType) => {
                checked={!!props.task.status}
         />
         <EditableSpan title={props.task.title} onChange={(title) => onChangeText(title)}/>
-         <Button disabled={props.task.isDisabledTask} onClick={removeTask}>delete</Button>
+        <Button disabled={props.task.isDisabledTask} onClick={removeTask}>delete</Button>
     </div>
 });
 

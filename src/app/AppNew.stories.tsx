@@ -8,7 +8,7 @@ import {App} from "./App";
 export default {
     title: 'App',
     components: App,
-    decorators:[ReduxStoreProviderDecorator]
+    decorators: [ReduxStoreProviderDecorator]
 } as ComponentMeta<typeof App>
 
-export const AppNewExample: ComponentStory<typeof App> = () =><App/>;
+export const AppNewExample: ComponentStory<typeof App> = () => <App/>;

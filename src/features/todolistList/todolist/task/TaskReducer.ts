@@ -67,7 +67,7 @@ export const getTaskTC = (todolistId: string): AppThunk => (dispatch) => {
                 handleServerNetworkError(e, dispatch)
             }
         )
-        .finally(()=>dispatch(changeProcessAC(false)))
+        .finally(() => dispatch(changeProcessAC(false)))
 }
 export const addTaskTC = (title: string, todolistId: string): AppThunk => (dispatch) => {
     dispatch(changeProcessAC(true))
@@ -83,10 +83,10 @@ export const addTaskTC = (title: string, todolistId: string): AppThunk => (dispa
             }
         )
         .catch(e => {
-            handleServerNetworkError(e, dispatch)
-        }
+                handleServerNetworkError(e, dispatch)
+            }
         )
-        .finally(()=>dispatch(changeProcessAC(false)))
+        .finally(() => dispatch(changeProcessAC(false)))
 }
 export const removeTaskTC = (todolistId: string, taskId: string): AppThunk => (dispatch) => {
     dispatch(changeProcessAC(true))
@@ -106,7 +106,7 @@ export const removeTaskTC = (todolistId: string, taskId: string): AppThunk => (d
                 handleServerNetworkError(e, dispatch)
             }
         )
-        .finally(()=>dispatch(changeProcessAC(false)))
+        .finally(() => dispatch(changeProcessAC(false)))
 }
 
 export const updateTaskTC = (taskId: string, item: PayLoadType, todolistId: string): AppThunk =>
@@ -139,5 +139,5 @@ export const updateTaskTC = (taskId: string, item: PayLoadType, todolistId: stri
                     handleServerNetworkError(e, dispatch)
                 }
             )
-            .finally(()=>dispatch(changeProcessAC(false)))
+            .finally(() => dispatch(changeProcessAC(false)))
     }

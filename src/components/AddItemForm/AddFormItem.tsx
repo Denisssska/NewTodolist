@@ -6,7 +6,7 @@ type AddFormItemType = {
     addItem: (title: string) => void
 
 }
-export const AddFormItem =React.memo((props: AddFormItemType) => {
+export const AddFormItem = React.memo((props: AddFormItemType) => {
 
     let [title, setTitle] = useState("")
     let [error, setError] = useState<string | null>(null)
@@ -24,7 +24,7 @@ export const AddFormItem =React.memo((props: AddFormItemType) => {
     }
 
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        if(error!== null){
+        if (error !== null) {
             setError(null);
         }
         if (e.key === 'Enter') {

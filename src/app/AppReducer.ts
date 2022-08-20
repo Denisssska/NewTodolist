@@ -1,12 +1,12 @@
 const IS_LOADING = 'IS_LOADING';
 const ERROR = 'ERROR';
 const IS_PROCESS = 'IS_PROCESS';
-const IS_INITIALIZED='IS_INITIALIZED'
+const IS_INITIALIZED = 'IS_INITIALIZED'
 const initialState = {
     loading: false,
     error: null,
     process: true,
-    initializedApp:false
+    initializedApp: false
 
 }
 export type errorAppType = typeof initialState
@@ -32,12 +32,12 @@ export const appReducer = (state: errorAppType = initialState, action: ErrorActi
 
             return <errorAppType>{...state, error: action.error}
         }
-        case IS_PROCESS:{
-            return {...state,process: action.process}
+        case IS_PROCESS: {
+            return {...state, process: action.process}
         }
-        case IS_INITIALIZED:{
+        case IS_INITIALIZED: {
             return {
-                ...state,initializedApp:action.initialized
+                ...state, initializedApp: action.initialized
             }
         }
         default:

@@ -3,7 +3,6 @@ import {AppThunk, StateAppType} from "../../../state/redux-store";
 import {changeProcessAC, loadingErrorAC, setErrAC} from "../../../app/AppReducer";
 import {handleServerAppError, handleServerNetworkError} from "../../../components/ErrorSnackBar/HandleError";
 
-
 const REMOVE_TODOLIST = "remove todolist";
 const ADD_TODOLIST = "add todolist";
 const GET_ARRAY = 'GET_ARRAY';

@@ -1,9 +1,7 @@
 import {authApi, AuthDataType, AuthPayload} from "../../API/AuthApi";
 import {AppThunk} from "../../state/redux-store";
 import {changeInitializedAC, changeProcessAC, loadingErrorAC, setErrAC} from "../../app/AppReducer";
-import { handleServerNetworkError} from "../../components/ErrorSnackBar/HandleError";
-
-
+import {handleServerNetworkError} from "../../components/ErrorSnackBar/HandleError";
 
 
 export type ActionsAuthType = ReturnType<typeof getMeAuthAC> | ReturnType<typeof changeAuthAC>
@@ -21,7 +19,7 @@ export const authReducer = (state: InitialDataStateType = initialState, action: 
     switch (action.type) {
         case GET_DATA: {
             return {
-                ...state, data:{...action.data}, isAuth: action.isAuth
+                ...state, data: {...action.data}, isAuth: action.isAuth
             }
         }
         case CHANGE_AUTH: {
@@ -40,14 +38,14 @@ export const getDataTC = (): AppThunk => (dispatch) => {
                 if (data.data.resultCode === 0) {
                     dispatch(getMeAuthAC(data.data.data, true))
                 }
-            dispatch(changeInitializedAC(true))
+                dispatch(changeInitializedAC(true))
             }
         )
         .catch(e => {
                 handleServerNetworkError(e, dispatch)
             }
         )
-        .finally(()=>dispatch(changeProcessAC(false)))
+        .finally(() => dispatch(changeProcessAC(false)))
 }
 export const loginTC = (payLoad: AuthPayload): AppThunk => (dispatch) => {
     dispatch(changeProcessAC(true))
@@ -64,7 +62,7 @@ export const loginTC = (payLoad: AuthPayload): AppThunk => (dispatch) => {
                 handleServerNetworkError(e, dispatch)
             }
         )
-        .finally(()=>dispatch(changeProcessAC(false)))
+        .finally(() => dispatch(changeProcessAC(false)))
 }
 export const logOutTC = (): AppThunk => (dispatch) => {
     dispatch(changeProcessAC(true))
@@ -81,5 +79,5 @@ export const logOutTC = (): AppThunk => (dispatch) => {
                 handleServerNetworkError(e, dispatch)
             }
         )
-        .finally(()=>dispatch(changeProcessAC(false)))
+        .finally(() => dispatch(changeProcessAC(false)))
 }

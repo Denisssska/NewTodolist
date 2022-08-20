@@ -5,7 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import MenuIcon from '@mui/icons-material/Menu';
 
 import {useCallback} from "react";
-import { NavLink} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import c from "../Header/header.module.css";
 import {logOutTC} from "../../features/Auth/Auth-reducer";
 import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
@@ -48,8 +48,9 @@ export const BurgerMenu = React.memo(() => {
                 }}
             >
 
-                {isAuth?<MenuItem onClick={logOutHandler}>Logout</MenuItem>:
-                    <MenuItem onClick={handleClose}><NavLink className={c.navLink} to='/login'>Login</NavLink></MenuItem>
+                {isAuth ? <MenuItem onClick={logOutHandler}>Logout</MenuItem> :
+                    <MenuItem onClick={handleClose}><NavLink className={c.navLink}
+                                                             to='/login'>Login</NavLink></MenuItem>
                 }
             </Menu>
         </div>
